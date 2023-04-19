@@ -1,0 +1,33 @@
+MENU
+Scene	shows all:	/scenes/csv_scenesfiles/*.csv
+	to select and load a scene
+
+Task	shows all:	/tasks/*.py
+	to toggle tasks [enable|disable]
+        
+Event	step	one interval with selected tasks
+	start	loop with selected tasks
+	stop	interrupt loop
+
+KEYS
+Space	one interval with selected tasks
+Return	loop with selected tasks
+a	enable all tasks
+b	generate blank scene
+i	show this info
+n	disable all tasks
+r	create random cells
+p	cell image or index number   
+s	dump cells as scene
+t	toggle through tasks    
+
+MOUSE  
+left click on cell
+	one interval with selected tasks
+
+right click on cell
+	toggle cell
+
+left click, hold and move
+	clone cell
+

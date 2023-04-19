@@ -1,0 +1,9 @@
+KEYS
+a	enable all tasks
+b	generate blank scene
+i	show this info
+n	disable all tasks
+r	create random cells
+p	cell image or index number   
+s	dump cells as scene
+t	toggle through tasks    
