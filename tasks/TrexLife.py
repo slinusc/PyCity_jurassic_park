@@ -8,76 +8,58 @@ from tasks.Task import Task
 from scenes.Scenes import Scenes
 
 class TrexLife(Task):
-    ''' simulates Trex life '''
-
     def do_task(self, cell=None):
-        ''' manipulate cells based on Trex behavior '''
         if cell is None:
             cell = self.get_random_cell(Trex)
-
         if isinstance(cell, Trex):
-            cell + 1  # Increase the index by 1 for each move
-            if cell.get_index() >= 50:
-                cell = cell.mutate_to(Dirt)  # Trex dies and turns into dirt
+            neighbor = self.get_neighbor_cell(cell)
+            if isinstance(neighbor, (Parasaurolophus, Brachiosaurus)):
+                cell + neighbor.get_index()
+                neighbor = neighbor.mutate_to(Dirt)
+                cell + 1
+                self.update(cell)
+                self.update(neighbor)
+            elif isinstance(neighbor, Trex):
+                if random.random() < 0.5:
+                    for _ in range(5):
+                        empty_cell = self.get_random_cell(Dirt)
+                        new_trex = empty_cell.mutate_to(Trex)
+                        self.update(new_trex)
+            elif isinstance(neighbor, (Dirt, Plants, Tree)):
+                cell.swap(neighbor)
+                cell.set_index(neighbor.get_index())
+                neighbor.set_index(0)
+                cell + 1
+                self.update(cell)
+                self.update(neighbor)
+            elif isinstance(neighbor, Sand):
+                cell.swap(neighbor)
+                cell.set_index(neighbor.get_index())
+                neighbor.set_index(0)
+                self.update(cell)
+                self.update(neighbor)
+
+            if cell.get_index() >= 100:
+                cell = cell.mutate_to(Dirt)
                 self.update(cell)
 
-            neighbor = self.get_neighbor_cell(cell)
-            if isinstance(neighbor, (Water, Mountain, Sand)):
-                if isinstance(neighbor, Sand):
-                    cell = cell.mutate_to(Sand)  # Trex stuck in sand
-                    self.update(cell)
 
-            elif isinstance(neighbor, (Parasaurolophus, Brachiosaurus)):
-                neighbor = neighbor.mutate_to(Dirt)  # Trex eats the dinosaur, and it turns into dirt
-                cell.swap(neighbor)
-                self.update(neighbor)
-
-            elif isinstance(neighbor, Trex):
-                prob = random.random()
-                if prob < 0.1:  # 1/10 chance of creating 5 new Trex
-                    for _ in range(5):
-                        empty_neighbor = self.get_neighbor_cell(cell, lambda c: isinstance(c, Dirt))
-                        if empty_neighbor:
-                            new_trex = empty_neighbor.mutate_to(Trex)
-                            self.update(new_trex)
-                else:
-                    cell.swap(neighbor)
-                    self.update(neighbor)
-
-            else:  # Trex moves to a different cell
-                cell.swap(neighbor)
-                self.update(neighbor)
-
-
-if __name__ == '__main__':  # test only
+if __name__ == '__main__':
     print('''
     test TrexLife
-    - Trex moves around, eats Parasaurolophus and Brachiosaurus
-    - When Trex meets another Trex, there's a 1/10 chance of creating 5 new Trex
-    - Trex gets stuck in Sand and can't move on Water or Mountain
-    - Trex dies after reaching an index of 50
+    - Trex roams the world, eats Parasaurolophus and Brachiosaurus
+    - When meeting another Trex, there's a chance to generate 5 new Trex
+    - Trex will be stuck on Sand, and die when its index reaches 50
     ''')
+    CELLS = 30
+    RUNS = 1000
 
-    CELLS = 30  # scene with 900 cells
-    STEPS = 10  # do the task 10 times
-    task = [task.__name__ for task in Task.__subclasses__()]
-    print('task: ', *task)
-    cells = Cell.__subclasses__()
-    all_cells = [cell.__name__ for cell in Cell.__subclasses__()]
-    print('cells:', *all_cells)
-
-    # generate random cells
-    cells = [[random.choice(cells)(row, col)
+    cells = [[random.choice(Cell.__subclasses__())(row, col)
               for col in range(CELLS)]
              for row in range(CELLS)]
-    print('# random cells:', len(cells) * len(cells[0]))
 
-    # simulate TrexLife
-    trexLife = TrexLife(cells)  # get task
-    trex = trexLife.get_random_cell(Trex)  # get a Trex
-    row, col = trex.get_row_col()  # get row and col
-    for i in range(STEPS):
-        cell = copy.copy(trex)  # copy to cell
-        trexLife.do_task(trex)  # do task
-        if not cell == cells[row][col]:  # on changed cell
-            print(f'{trexLife} on {cell!r} effects {trex!r} and {cells[row][col]!r}')
+    trex_life = TrexLife(cells)
+    print(f'simulate {RUNS} runs of {trex_life}')
+
+    for run in range(RUNS):
+        trex_life.do_task()
