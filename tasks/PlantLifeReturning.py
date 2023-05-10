@@ -9,8 +9,6 @@ sys.path.append('../')  # search modules in parent folder too
 from cells.Cells import *
 from tasks.Task import Task
 
-class Dirt(Cell):
-    pass
 
 class PlantLifeReturning(Task):
     ''' simulates forest grow '''
@@ -31,9 +29,6 @@ class PlantLifeReturning(Task):
             elif 0.25 <= prob < 0.50:
                 plants = cell.mutate_to(Plants)
                 self.update(plants)
-        else:
-            tree = cell.mutate_to(Tree)  # and let a tree grow
-            self.update(tree)  # update cells
 
 if __name__ == '__main__':  # test only
     task = [task.__name__ for task in Task.__subclasses__()]
