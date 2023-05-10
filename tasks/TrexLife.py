@@ -33,11 +33,17 @@ class TrexLife(Task):
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Sand):
-                cell.swap(neighbor)
                 cell.set_index(neighbor.get_index())
-                neighbor.set_index(0)
                 self.update(cell)
-                self.update(neighbor)
+
+            else:
+                if not isinstance(neighbor, (Water, Mountain)):
+                    cell.swap(neighbor)
+                    cell.set_index(neighbor.get_index())
+                    neighbor.set_index(0)
+                    cell + 1
+                    self.update(cell)
+                    self.update(neighbor)
 
             if cell.get_index() >= 100:
                 cell = cell.mutate_to(Dirt)
