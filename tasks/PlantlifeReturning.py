@@ -42,11 +42,6 @@ if __name__ == '__main__':  # test only
     print('cells:', *all_cells)
     CELLS = 30
     RUNS = 1000
-    # generate lots of Holes
-    cells = [[Hole(row, col)
-              for col in range(CELLS)]
-             for row in range(CELLS)]
-    print('lots of holes:', len(cells) * len(cells[0]))
 
     def count_trees(cells):
         trees = 0
