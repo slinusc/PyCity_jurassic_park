@@ -12,7 +12,7 @@ from tasks.Task import Task
 class Dirt(Cell):
     pass
 
-class JungleReturning(Task):
+class PlantLifeReturning(Task):
     ''' simulates forest grow '''
 
     def do_task(self, cell=None):
@@ -58,11 +58,11 @@ if __name__ == '__main__':  # test only
                     grow += cell.get_index()
         return trees, grow  # return as tuple
 
-    # simulate JungleReturning
-    jungleReturning = JungleReturning(cells)
-    print(f'simulate {RUNS} runs of {jungleReturning}')
+    # simulate PlantLifeReturning
+    plantLifeReturning = PlantLifeReturning(cells)
+    print(f'simulate {RUNS} runs of {plantLifeReturning}')
     print(f' - starting with {count_trees(cells)[0]} trees')
     for run in range(RUNS):
-        jungleReturning.do_task()
+        plantLifeReturning.do_task()
     trees, grow = count_trees(cells)  # return tuple
     print(f' - produced {trees} trees and {grow} grow index')
