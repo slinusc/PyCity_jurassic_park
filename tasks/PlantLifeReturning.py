@@ -23,10 +23,10 @@ class PlantLifeReturning(Task):
             cell + 1  # keep aging - magic method __add__
         elif isinstance(cell, Dirt):
             prob = random.random()
-            if prob < 0.25:
+            if prob < 0.4:
                 tree = cell.mutate_to(Tree)
                 self.update(tree)
-            elif 0.25 <= prob < 0.50:
+            elif 0.4 <= prob < 0.80:
                 plants = cell.mutate_to(Plants)
                 self.update(plants)
 
