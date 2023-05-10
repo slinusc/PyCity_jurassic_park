@@ -29,7 +29,7 @@ class PlantLifeReturning(Task):
                 tree = cell.mutate_to(Tree)
                 self.update(tree)
             elif 0.25 <= prob < 0.50:
-                plants = cell.mutate_to(Plant)
+                plants = cell.mutate_to(Plants)
                 self.update(plants)
         else:
             tree = cell.mutate_to(Tree)  # and let a tree grow
