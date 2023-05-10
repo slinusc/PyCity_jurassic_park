@@ -20,7 +20,7 @@ class TrexLife(Task):
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Trex):
-                if random.random() < 0.5:
+                if random.random() < 0.2:
                     for _ in range(5):
                         empty_cell = self.get_random_cell(Dirt)
                         new_trex = empty_cell.mutate_to(Trex)
