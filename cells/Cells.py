@@ -167,6 +167,21 @@ class Fish(Cell):
     - define your own cells (has to inherit cell)
 '''
 
+class Trex(Cell):
+    ''' walks on land and eats dinos
+        index: size '''
+    color = "#32CD32"  # RGB (red green blue) > cyan color
+
+class Parasauro(Cell):
+    ''' walks on land and eats dinos
+        index: size '''
+    color = "#32CD32"  # RGB (red green blue) > cyan color
+
+class Brachio(Cell):
+    ''' walks on land and eats dinos
+        index: size '''
+    color = "#32CD32"  # RGB (red green blue) > cyan color
+
 # test
 if __name__ == '__main__':
     cells = 30  # use 30 x 30 cells

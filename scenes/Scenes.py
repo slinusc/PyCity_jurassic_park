@@ -20,7 +20,8 @@ import numpy as np
 sys.path.append('../')  # search moduls in parent folder too
 from cells import Cells as c
 
-START_SCENE = 'IlesOfTrees.csv'  # load this scene on startup
+#START_SCENE = 'IlesOfTrees.csv'  # load this scene on startup
+START_SCENE = 'dinoPark.csv'  # load this scene on startup
 CSV_FILE_PATH = "../csv_scene_files"  # path of csv files
 CELLS = 30
 ALL_CELLS = c.Cell.__subclasses__()
