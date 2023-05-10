@@ -49,7 +49,7 @@ START_SCENE = s.START_SCENE[:-4]  # IlesOfTrees > this scene is loaded on start
 ICON = 'icon/pyCity.ico'  # folder
 HOWTO = 'info/howto.txt'  # folder
 KEY = 'info/keys.txt'  # folder
-IMAGE = 'pics'  # folder
+IMAGE = 'pics'  # folderf
 IMAGE_EXT = '.png'  # image extension
 LIMIT = 20  # limits name for display
 
@@ -217,7 +217,7 @@ class PyCity(tk.Tk):
         elif menu == "Event":  # call event [step, start, stop]
             self.loop = event == 'start'
             self.do_tasks()
-        elif menu == "Control":  # call control     
+        elif menu == "Control":  # call control
             self.on_key(None, event)
 
     def get_cell_clicked(self, event):
@@ -397,7 +397,7 @@ class PyCity(tk.Tk):
         return text
 
     def update_cells(self):  # update all cells
-        for row in self.cells:  # for all cells 
+        for row in self.cells:  # for all cells
             for cell in row:
                 self.update_cell(cell)  # udate cell
 
@@ -413,7 +413,7 @@ class PyCity(tk.Tk):
             self.grid.itemconfigure(img, image=self.images[name])
         else:
             self.grid.itemconfigure(img, image=self.images['Blank'])
-    
+
     def update_labels(self):
         for cell in self.cell_labels:  # update count of cell labels
             count = self.count_cells(cell[1])  # sum of same cell

@@ -141,6 +141,12 @@ class Sand(Cell):
     # no need to set burnable, False is inherited
     color = "#C2B280"  # RGB (red green blue) > sand color
 
+class Land(Cell):
+    ''' any kind of sand ...
+        index: height -> dunes, ...  '''
+    # no need to set burnable, False is inherited
+    color = "#00FF00"  # RGB (red green blue) > sand color
+
 
 class Fire(Cell):
     ''' burning cell, as long as burnable
