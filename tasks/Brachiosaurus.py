@@ -12,13 +12,11 @@ __description__ = 'Brachiosaurus walk on land, eat Trees, and interact with othe
 __author__ = 'Obermühlner'
 
 import sys
-import random
 import copy
-sys.path.append('../')  # search moduls in parent folder too
+sys.path.append('../')
 
 from cells.Cells import *
 from tasks.Task import Task
-from scenes.Scenes import Scenes
 
 
 
@@ -45,9 +43,9 @@ class Brachiosaurus(Task):
                 if random.random() < 0.5:
                     cell = cell.mutate_to(Dirt)
             elif not (isinstance(neighbor, Water) or isinstance(neighbor, Mountain)):
-                temp_cell = copy.deepcopy(cells[neighbor.get_row()][neighbor.get_col()])
-                cells[neighbor.get_row()][neighbor.get_col()] = copy.deepcopy(cells[cell.get_row()][cell.get_col()])
-                cells[cell.get_row()][cell.get_col()] = temp_cell
+                temp_cell = copy.deepcopy(self.cells[neighbor.get_row()][neighbor.get_col()])
+                self.cells[neighbor.get_row()][neighbor.get_col()] = copy.deepcopy(self.cells[cell.get_row()][cell.get_col()])
+                self.cells[cell.get_row()][cell.get_col()] = temp_cell
 
                 cell.set_row_col(neighbor.get_row(), neighbor.get_col())
 
@@ -55,6 +53,9 @@ class Brachiosaurus(Task):
                 self.update(neighbor)
             self.update(cell)
             self.update(neighbor)
+        else:
+            print(cell, Brachiosaurus)
+
 
 
 if __name__ == '__main__':  # test only
