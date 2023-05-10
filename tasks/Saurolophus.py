@@ -53,7 +53,7 @@ class Saurolophus(Task):
 
 if __name__ == '__main__':  # test only
     print('''
-    test ParasaurolophusBehavior
+    test Saurolophus
     - parasaurolophus walk on land, eat plants, and interact with other dinosaurs
     ''')
     CELLS = 30  # scene with 900 cells
@@ -62,3 +62,31 @@ if __name__ == '__main__':  # test only
     print('task: ', *task)
     cells = Cell.__subclasses__()
     all_cells = [cell.__name__ for cell in
+    Cell.__subclasses__()]
+    print('cells:', *all_cells)
+    # generate random cells
+    cells = [[random.choice(cells)(row, col)
+              for col in range(CELLS)]
+             for row in range(CELLS)]
+    print('# random cells:', len(cells) * len(cells[0]))
+    # simulate Saurolophus
+    paraBehavior = Saurolophus(cells)  # get task
+    para = paraBehavior.get_random_cell(Parasaurolophus)  # get a parasaurolophus
+    row, col = para.get_row_col()  # get row and col
+    for i in range(STEPS):
+        cell = copy.copy(para)  # copy to cell
+        paraBehavior.do_task(para)  # do task
+        if not cell == cells[row][col]:  # on changed cell
+            print(f'{paraBehavior} on {cell!r} effects {para!r} and {cells[row][col]!r}')
+    # test magic methods
+    other_para = paraBehavior.get_random_cell(Parasaurolophus)  # get a parasaurolophus
+    para + 5  # magic method __add__
+    other_para + 3  # be careful! += is not supported as magic method
+    para + other_para  # add index of other_para to para
+    print(f'{para!r} is bigger than {other_para!r}:', para > other_para)
+    # test move
+    dirt = paraBehavior.get_random_cell(Dirt)  # get dirt
+    print(f'para and dirt: {para!r} - {dirt!r}')
+    para.swap(dirt)  # swap
+    print(f'swapped       : {para!r} - {dirt!r}')
+
