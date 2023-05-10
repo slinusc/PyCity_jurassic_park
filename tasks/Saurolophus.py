@@ -41,7 +41,7 @@ class Saurolophus(Task):
             elif isinstance(neighbor, Trex):  # meet trex
                 if random.random() < 0.5:  # 50% chance to die
                     cell = cell.mutate_to(Dirt)  # back to dirt
-            else:
+            elif not (isinstance(neighbor, Water) or isinstance(neighbor, Mountain)):
                 cell.swap(neighbor)  # swap -> parasaurolophus moves
                 cell.set_index(neighbor.get_index())  # keep index
                 neighbor.set_index(0)  # reset dirt index
@@ -49,6 +49,7 @@ class Saurolophus(Task):
                 self.update(neighbor)  # update (new) neighbor
             self.update(cell)  # update (new) cell
             self.update(neighbor)  # update (new) neighbor
+
 
 
 if __name__ == '__main__':  # test only
