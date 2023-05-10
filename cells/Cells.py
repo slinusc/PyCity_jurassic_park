@@ -109,10 +109,6 @@ class Cell():
             self.__class__.__name__, *self.get_row_col(), self.get_index())
 
 
-class Hole(Cell):  # do not delete - is used to produce blank scene
-    ''' blank cell indicates the black hole or lost landscape
-        index: coud be anything '''
-
 
 class Tree(Cell):
     ''' and kind of alive tree
@@ -128,7 +124,7 @@ class Water(Cell):
     color = "#0000FF"  # RGB (red green blue) > B = max (FF) > blue
 
 
-class Rock(Cell):
+class Mountain(Cell):
     ''' any kind of rock ...
         index: depth, cleannes, flow, ...  '''
     # no need to set burnable, False is inherited
@@ -141,18 +137,17 @@ class Sand(Cell):
     # no need to set burnable, False is inherited
     color = "#C2B280"  # RGB (red green blue) > sand color
 
-class Land(Cell):
+class Dirt(Cell):
     ''' any kind of sand ...
         index: height -> dunes, ...  '''
     # no need to set burnable, False is inherited
-    color = "#00FF00"  # RGB (red green blue) > sand color
+    color = "#8B4513"  # RGB (red green blue) > sand color
 
-
-class Fire(Cell):
-    ''' burning cell, as long as burnable
-        index: time '''
-    burnable = True
-    color = "#FF0000"  # RGB (red green blue) > R = max (FF) > red
+class Plants(Cell):
+    ''' any kind of sand ...
+        index: height -> dunes, ...  '''
+    # no need to set burnable, False is inherited
+    color = "#228B22"  # RGB (red green blue) > sand color
 
 
 class Chark(Cell):
@@ -178,12 +173,12 @@ class Trex(Cell):
         index: size '''
     color = "#32CD32"  # RGB (red green blue) > cyan color
 
-class Parasauro(Cell):
+class Parasaurolophus(Cell):
     ''' walks on land and eats dinos
         index: size '''
     color = "#32CD32"  # RGB (red green blue) > cyan color
 
-class Brachio(Cell):
+class Brachiosaurus(Cell):
     ''' walks on land and eats dinos
         index: size '''
     color = "#32CD32"  # RGB (red green blue) > cyan color
@@ -207,8 +202,6 @@ if __name__ == '__main__':
     cell_1.swap(cell_2)  # swaps also index
     print(f'and swap     : {cell_1!r} {cell_2!r}')
     # mutate to
-    print(f'{cell_1!r} mutates to Hole:', end='')
-    cell_1 = cell_1.mutate_to(Hole)  # creates a new mutant (index = 0)
     print(f'{cell_1!r}')
     # print cells
     print('\nrandom cells: Name [row/col] Index')
