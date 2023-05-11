@@ -28,7 +28,7 @@ class BrachiosaurusLife(Task):
             cell = self.get_random_cell(Brachiosaurus)  # want a parasaurolophus only to ..
         if isinstance(cell, Brachiosaurus):  # it's a Parasaurolophus
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
-            if isinstance(neighbor, Plants):  # eat plants
+            if isinstance(neighbor, Tree):  # eat plants
                 cell + neighbor  # grow
                 neighbor = neighbor.mutate_to(Dirt)  # back to dirt
             elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus
@@ -37,8 +37,7 @@ class BrachiosaurusLife(Task):
                     new_para = dirt.mutate_to(Brachiosaurus)  # mutate to Brachiosaurus
                     self.update(new_para)  # update (new) cell
             elif isinstance(neighbor, Trex):  # meet trex
-                if random.random() < 0.5:  # 50% chance to die
-                    cell = cell.mutate_to(Dirt)  # back to dirt
+                cell = cell.mutate_to(Dirt)  # back to dirt
             elif isinstance(neighbor, Parasaurolophus):
                 if random.random() < 0.5:
                     neighbor = neighbor.mutate_to(Dirt)
