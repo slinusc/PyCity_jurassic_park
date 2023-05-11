@@ -20,7 +20,7 @@ from tasks.Task import Task
 
 
 
-class Brachiosaurus(Task):
+class BrachiosaurusLife(Task):
     ''' simulates brachiosaurus behavior '''
 
     def do_task(self, cell=None):
