@@ -4,7 +4,7 @@
 ''' to do: expand and experiment
     delete this task as it is destroying your scenery '''
 
-__description__ = 'cells turn to Trees an return the Jungle\nbe carful using palm oil'
+__description__ = 'cells turn to Forests an return the Jungle\nbe carful using palm oil'
 __author__ = 'Stephan Metzler'
 
 import sys
@@ -19,15 +19,15 @@ class JungleReturning(Task):
     ''' simulates forest grow '''
 
     def do_task(self, cell=None):
-        ''' mutate any cell to tree
-            grow if tree '''
+        ''' mutate any cell to Forest
+            grow if Forest '''
         if not cell:
             cell = self.get_random_cell()  # use any cell
-        if isinstance(cell, Tree):  # grow
+        if isinstance(cell, Forest):  # grow
             cell + 1  # keep aging - magic method __add__
         else:
-            tree = cell.mutate_to(Tree)  # and let a tree grow
-            self.update(tree)  # update cells
+            Forest = cell.mutate_to(Forest)  # and let a Forest grow
+            self.update(Forest)  # update cells
 
 
 if __name__ == '__main__':  # test only
@@ -43,21 +43,21 @@ if __name__ == '__main__':  # test only
              for row in range(CELLS)]
     print('lots of holes:', len(cells) * len(cells[0]))
 
-    def count_trees(cells):
-        trees = 0
+    def count_Forests(cells):
+        Forests = 0
         grow = 0
         for row in cells:
             for cell in row:
-                if isinstance(cell, Tree):
-                    trees += 1
+                if isinstance(cell, Forest):
+                    Forests += 1
                     grow += cell.get_index()
-        return trees, grow  # return as tupel
+        return Forests, grow  # return as tupel
 
     # simulate JungleReturning
     jungleReturning = JungleReturning(cells)
     print(f'simulate {RUNS} runs of {jungleReturning}')
-    print(f' - starting with {count_trees(cells)[0]} trees')
+    print(f' - starting with {count_Forests(cells)[0]} Forests')
     for run in range(RUNS):
         jungleReturning.do_task()
-    trees, grow = count_trees(cells)  # return tupel
-    print(f' - produced {trees} trees and {grow} grow index')
+    Forests, grow = count_Forests(cells)  # return tupel
+    print(f' - produced {Forests} Forests and {grow} grow index')

@@ -8,7 +8,7 @@
     index:           size of dinosaur
 '''
 
-__description__ = 'Brachiosaurus walk on land, eat Trees, and interact with other dinosaurs'
+__description__ = 'Brachiosaurus walk on land, eat Forest, and interact with other dinosaurs'
 __author__ = 'Obermühlner'
 
 import sys
@@ -28,7 +28,7 @@ class BrachiosaurusLife(Task):
             cell = self.get_random_cell(Brachiosaurus)  # want a parasaurolophus only to ..
         if isinstance(cell, Brachiosaurus):  # it's a Parasaurolophus
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
-            if isinstance(neighbor, Tree):  # eat plants
+            if isinstance(neighbor, Forest):  # eat plants
                 cell + neighbor  # grow
                 neighbor = neighbor.mutate_to(Dirt)  # back to dirt
             elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus

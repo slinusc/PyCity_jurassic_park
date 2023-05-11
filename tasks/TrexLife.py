@@ -20,12 +20,12 @@ class TrexLife(Task):
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Trex):
-                if random.random() < 0.5:
+                if random.random() < 0.2:
                     for _ in range(5):
                         empty_cell = self.get_random_cell(Dirt)
                         new_trex = empty_cell.mutate_to(Trex)
                         self.update(new_trex)
-            elif isinstance(neighbor, (Dirt, Plants, Tree)):
+            elif isinstance(neighbor, (Dirt, Plants, Forest)):
                 cell.swap(neighbor)
                 cell.set_index(neighbor.get_index())
                 neighbor.set_index(0)
@@ -39,7 +39,7 @@ class TrexLife(Task):
             else:
                 if not isinstance(neighbor, (Water, Mountain)):
                     cell.swap(neighbor)
-                    cell.set_index(neighbor.get_index())
+                    cell + neighbor.get_index()
                     neighbor.set_index(0)
                     cell + 1
                     self.update(cell)

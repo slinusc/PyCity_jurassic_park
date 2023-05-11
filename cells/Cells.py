@@ -3,7 +3,7 @@
 
 ''' basic application contains a surface of 30 x 30 fields
     each field contains a typical city structure:
-    - land, water, house, business, street, car, person, etc.
+    - land, water, house, business, sForestt, car, person, etc.
 
     the fields are subclasses of Cell and contain
     - color: String (RGB as HEX) e.g. "#FF0000"  > red
@@ -110,9 +110,9 @@ class Cell():
 
 
 
-class Tree(Cell):
-    ''' and kind of alive tree
-        index: age of tree '''
+class Forest(Cell):
+    ''' and kind of alive Forest
+        index: age of Forest '''
     color = "#00FF00"  # RGB (red green blue) > G = max (FF) > green
     burnable = True
 
@@ -152,7 +152,7 @@ class Plants(Cell):
 
 class Chark(Cell):
     ''' burned down to chark
-        index: recover time until a new 'Tree' grows '''
+        index: recover time until a new 'Forest' grows '''
     color = "#303030"  # RGB (red green blue) > chark color
     burnable = True
 
