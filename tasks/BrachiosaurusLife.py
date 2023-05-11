@@ -22,41 +22,34 @@ from tasks.Task import Task
 
 class BrachiosaurusLife(Task):
     ''' simulates brachiosaurus behavior '''
-
     def do_task(self, cell=None):
-        if cell is None:
-            cell = self.get_random_cell(Brachiosaurus)
-        if isinstance(cell, Brachiosaurus):
-            neighbor = self.get_neighbor_cell(cell)
-            if isinstance(neighbor, Tree):
-                cell + neighbor
-                neighbor = neighbor.mutate_to(Dirt)
-            elif isinstance(neighbor, Brachiosaurus):
-                if random.random() < 0.5:
+        ''' do the task > manipulate cells '''
+        if cell is None:  # if not cell clicked by mouse
+            cell = self.get_random_cell(Brachiosaurus)  # want a parasaurolophus only to ..
+        if isinstance(cell, Brachiosaurus):  # it's a Parasaurolophus
+            neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
+            if isinstance(neighbor, Plants):  # eat plants
+                cell + neighbor  # grow
+                neighbor = neighbor.mutate_to(Dirt)  # back to dirt
+            elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus
+                if random.random() < 0.5:  # 50% chance to reproduce
                     dirt = self.get_random_cell(Dirt)
-                    new_brachio = dirt.mutate_to(Brachiosaurus)
-                    self.update(new_brachio)
+                    new_para = dirt.mutate_to(Brachiosaurus)  # mutate to Brachiosaurus
+                    self.update(new_para)  # update (new) cell
+            elif isinstance(neighbor, Trex):  # meet trex
+                if random.random() < 0.5:  # 50% chance to die
+                    cell = cell.mutate_to(Dirt)  # back to dirt
             elif isinstance(neighbor, Parasaurolophus):
                 if random.random() < 0.5:
                     neighbor = neighbor.mutate_to(Dirt)
-            elif isinstance(neighbor, Trex):
-                if random.random() < 0.5:
-                    cell = cell.mutate_to(Dirt)
             elif not (isinstance(neighbor, Water) or isinstance(neighbor, Mountain)):
-                temp_cell = copy.deepcopy(self.cells[neighbor.get_row()][neighbor.get_col()])
-                self.cells[neighbor.get_row()][neighbor.get_col()] = copy.deepcopy(self.cells[cell.get_row()][cell.get_col()])
-                self.cells[cell.get_row()][cell.get_col()] = temp_cell
-
-                cell.set_row_col(neighbor.get_row(), neighbor.get_col())
-
-                self.update(cell)
-                self.update(neighbor)
-            self.update(cell)
-            self.update(neighbor)
-        else:
-            print(cell, Brachiosaurus)
-
-
+                cell.swap(neighbor)  # swap -> Brachiosaurus moves
+                cell.set_index(neighbor.get_index())  # keep index
+                neighbor.set_index(0)  # reset dirt index
+                self.update(cell)  # update (new) cell
+                self.update(neighbor)  # update (new) neighbor
+            self.update(cell)  # update (new) cell
+            self.update(neighbor)  # update (new) neighbor
 
 if __name__ == '__main__':  # test only
     print('''
