@@ -77,6 +77,15 @@ class Cell():
         ''' return cell inflammability as True|False '''
         return self.burnable
 
+    def get_state(self):
+        ''' return cell state as a tuple (class, index) '''
+        return (self.__class__, self.index)
+
+    def set_state(self, state):
+        ''' set cell state from a tuple (class, index) '''
+        self.__class__, self.index = state
+
+
     def __eq__(self, other):
         ''' return comparison using == on cell objects '''
         return self.__dict__ == other.__dict__
@@ -108,8 +117,6 @@ class Cell():
         return '{:_<8}[{:02}/{:02}]_{:02}'.format(
             self.__class__.__name__, *self.get_row_col(), self.get_index())
 
-
-
 class Forest(Cell):
     ''' and kind of alive Forest
         index: age of Forest '''
@@ -131,37 +138,23 @@ class Mountain(Cell):
     color = "#888888"  # RGB (red green blue) > stone color
 
 
-class Sand(Cell):
-    ''' any kind of sand ...
+class Swamp(Cell):
+    ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
     # no need to set burnable, False is inherited
-    color = "#C2B280"  # RGB (red green blue) > sand color
+    color = "#C2B280"  # RGB (red green blue) > Swamp color
 
 class Dirt(Cell):
-    ''' any kind of sand ...
+    ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
     # no need to set burnable, False is inherited
-    color = "#8B4513"  # RGB (red green blue) > sand color
+    color = "#8B4513"  # RGB (red green blue) > Swamp color
 
 class Plants(Cell):
-    ''' any kind of sand ...
+    ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
     # no need to set burnable, False is inherited
-    color = "#228B22"  # RGB (red green blue) > sand color
-
-
-class Chark(Cell):
-    ''' burned down to chark
-        index: recover time until a new 'Forest' grows '''
-    color = "#303030"  # RGB (red green blue) > chark color
-    burnable = True
-
-
-class Fish(Cell):
-    ''' swim in water, grow while swimmig
-        index: size '''
-    # no need to set burnable, False is inherited
-    color = "#00FFFF"  # RGB (red green blue) > cyan color
+    color = "#228B22"  # RGB (red green blue) > Swamp color
 
 
 ''' to do:
@@ -171,7 +164,7 @@ class Fish(Cell):
 class Trex(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#32CD32"  # RGB (red green blue) > cyan color
+    color = "#303030"  # RGB (red green blue) > cyan color
 
 class Parasaurolophus(Cell):
     ''' walks on land and eats dinos

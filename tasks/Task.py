@@ -138,8 +138,8 @@ if __name__ == '__main__':  # test only
     task.update(random_cell)  # update cells
     task.update(neighbor)  # update cells
     # test specific random cell
-    Forest = task.get_random_cell(Forest)  # use class name
-    print('should be Forest only:', Forest)
+    forest = task.get_random_cell(Forest)  # use class name
+    print('should be Forest only:', forest)
 
     # test specific random cell but cells are only burnable cells
     hole = task.get_random_cell(Hole)  # use class name

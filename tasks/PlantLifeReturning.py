@@ -24,8 +24,8 @@ class PlantLifeReturning(Task):
         elif isinstance(cell, Dirt):
             prob = random.random()
             if prob < 0.4:
-                Forest = cell.mutate_to(Forest)
-                self.update(Forest)
+                forest = cell.mutate_to(Forest)
+                self.update(forest)
             elif 0.4 <= prob < 0.80:
                 plants = cell.mutate_to(Plants)
                 self.update(plants)
@@ -39,14 +39,14 @@ if __name__ == '__main__':  # test only
     RUNS = 1000
 
     def count_Forests(cells):
-        Forests = 0
+        forests = 0
         grow = 0
         for row in cells:
             for cell in row:
                 if isinstance(cell, Forest):
-                    Forests += 1
+                    forests += 1
                     grow += cell.get_index()
-        return Forests, grow  # return as tuple
+        return forests, grow  # return as tuple
 
     # simulate PlantLifeReturning
     plantLifeReturning = PlantLifeReturning(cells)
@@ -54,5 +54,5 @@ if __name__ == '__main__':  # test only
     print(f' - starting with {count_Forests(cells)[0]} Forests')
     for run in range(RUNS):
         plantLifeReturning.do_task()
-    Forests, grow = count_Forests(cells)  # return tuple
-    print(f' - produced {Forests} Forests and {grow} grow index')
+    forests, grow = count_Forests(cells)  # return tuple
+    print(f' - produced {forests} Forests and {grow} grow index')

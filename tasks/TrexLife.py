@@ -26,21 +26,23 @@ class TrexLife(Task):
                         new_trex = empty_cell.mutate_to(Trex)
                         self.update(new_trex)
             elif isinstance(neighbor, (Dirt, Plants, Forest)):
+                previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
                 cell.set_index(neighbor.get_index())
-                neighbor.set_index(0)
+                neighbor.set_state(previous_state)  # restore previous state
                 cell + 1
                 self.update(cell)
                 self.update(neighbor)
-            elif isinstance(neighbor, Sand):
+            elif isinstance(neighbor, Swamp):
                 cell.set_index(neighbor.get_index())
                 self.update(cell)
 
             else:
                 if not isinstance(neighbor, (Water, Mountain)):
+                    previous_state = neighbor.get_state()  # save previous state
                     cell.swap(neighbor)
                     cell + neighbor.get_index()
-                    neighbor.set_index(0)
+                    neighbor.set_state(previous_state)  # restore previous state
                     cell + 1
                     self.update(cell)
                     self.update(neighbor)
@@ -55,7 +57,7 @@ if __name__ == '__main__':
     test TrexLife
     - Trex roams the world, eats Parasaurolophus and Brachiosaurus
     - When meeting another Trex, there's a chance to generate 5 new Trex
-    - Trex will be stuck on Sand, and die when its index reaches 50
+    - Trex will be stuck on Swamp, and die when its index reaches 50
     ''')
     CELLS = 30
     RUNS = 1000
