@@ -14,42 +14,28 @@ class TrexLife(Task):
         if isinstance(cell, Trex):
             neighbor = self.get_neighbor_cell(cell)
             if isinstance(neighbor, (Parasaurolophus, Brachiosaurus)):
-                cell + neighbor.get_index()
+                cell.swap(neighbor)
                 neighbor = neighbor.mutate_to(Dirt)
-                cell + 1
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Trex):
-                if random.random() < 0.2:
+                if random.random() < 0.4:
                     for _ in range(5):
                         empty_cell = self.get_random_cell(Dirt)
                         new_trex = empty_cell.mutate_to(Trex)
                         self.update(new_trex)
-            elif isinstance(neighbor, (Dirt, Plants, Forest)):
-                previous_state = neighbor.get_state()  # save previous state
-                cell.swap(neighbor)
-                cell.set_index(neighbor.get_index())
-                neighbor.set_state(previous_state)  # restore previous state
-                cell + 1
-                self.update(cell)
-                self.update(neighbor)
             elif isinstance(neighbor, Swamp):
-                cell.set_index(neighbor.get_index())
+                cell = cell.mutate_to(Dirt)
                 self.update(cell)
-
             else:
                 if not isinstance(neighbor, (Water, Mountain)):
                     previous_state = neighbor.get_state()  # save previous state
                     cell.swap(neighbor)
-                    cell + neighbor.get_index()
                     neighbor.set_state(previous_state)  # restore previous state
-                    cell + 1
                     self.update(cell)
                     self.update(neighbor)
-
-            if cell.get_index() >= 100:
-                cell = cell.mutate_to(Dirt)
-                self.update(cell)
+            self.update(cell)
+            self.update(Dirt)
 
 
 if __name__ == '__main__':

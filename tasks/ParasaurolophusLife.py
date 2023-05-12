@@ -21,7 +21,7 @@ from tasks.Task import Task
 from scenes.Scenes import Scenes
 
 
-class Saurolophus(Task):
+class ParasaurolophusLife(Task):
     ''' simulates parasaurolophus behavior '''
 
     def do_task(self, cell=None):
@@ -31,21 +31,22 @@ class Saurolophus(Task):
         if isinstance(cell, Parasaurolophus):  # it's a Parasaurolophus
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
             if isinstance(neighbor, Plants):  # eat plants
-                cell + neighbor  # grow
+                cell.swap(neighbor) # grow
                 neighbor = neighbor.mutate_to(Dirt)  # back to dirt
+                self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
                 if random.random() < 0.5:  # 50% chance to reproduce
-                    dirt = self.get_random_cell(Dirt)
-                    new_para = dirt.mutate_to(Parasaurolophus)  # mutate to parasaurolophus
-                    self.update(new_para)  # update (new) cell
+                    for _ in range(5):
+                        empty_cell = self.get_random_cell(Dirt)
+                        new_para = empty_cell.mutate_to(Parasaurolophus)
+                        self.update(new_para)
             elif isinstance(neighbor, Trex):  # meet trex
                 cell = cell.mutate_to(Dirt)  # back to dirt
-            elif not (isinstance(neighbor, Water) or isinstance(neighbor, Mountain)):
+                self.update(cell)
+            elif not isinstance(neighbor, (Water, Mountain, Swamp)):
                 previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
-                cell.set_index(neighbor.get_index())
                 neighbor.set_state(previous_state)  # restore previous state
-                cell.mutate_to(Dirt)
                 self.update(cell)
                 self.update(neighbor)
             self.update(cell)  # update (new) cell
