@@ -41,15 +41,15 @@ class Saurolophus(Task):
             elif isinstance(neighbor, Trex):  # meet trex
                 cell = cell.mutate_to(Dirt)  # back to dirt
             elif not (isinstance(neighbor, Water) or isinstance(neighbor, Mountain)):
-                previous_state = cell.get_state()  # save current state before moving
-                cell.swap(neighbor)  # swap -> Parasaurolophus moves
-                cell.set_index(neighbor.get_index())  # keep index
+                previous_state = neighbor.get_state()  # save previous state
+                cell.swap(neighbor)
+                cell.set_index(neighbor.get_index())
                 neighbor.set_state(previous_state)  # restore previous state
-                neighbor.set_index(0)  # reset dirt index
-                self.update(cell)  # update (new) cell
-                self.update(neighbor)  # update (new) neighbor
+                cell.mutate_to(Dirt)
+                self.update(cell)
+                self.update(neighbor)
             self.update(cell)  # update (new) cell
-            self.update(neighbor)  # update (new) neighbor
+            self.update(Dirt)  # update (new) neighbor
 
 
 
