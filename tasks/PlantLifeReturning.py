@@ -19,9 +19,7 @@ class PlantLifeReturning(Task):
         if not cell:
             cell = self.get_random_cell()  # use any cell
 
-        if isinstance(cell, Forest):  # grow
-            cell + 1  # keep aging - magic method __add__
-        elif isinstance(cell, Dirt):
+        if isinstance(cell, Dirt):
             prob = random.random()
             if prob < 0.4:
                 forest = cell.mutate_to(Forest)

@@ -31,8 +31,9 @@ class ParasaurolophusLife(Task):
         if isinstance(cell, Parasaurolophus):  # it's a Parasaurolophus
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
             if isinstance(neighbor, Plants):  # eat plants
-                cell.swap(neighbor) # grow
+                cell.swap(neighbor)
                 neighbor = neighbor.mutate_to(Dirt)  # back to dirt
+                self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
                 if random.random() < 0.5:  # 50% chance to reproduce
@@ -49,8 +50,6 @@ class ParasaurolophusLife(Task):
                 neighbor.set_state(previous_state)  # restore previous state
                 self.update(cell)
                 self.update(neighbor)
-            self.update(cell)  # update (new) cell
-            self.update(Dirt)  # update (new) neighbor
 
 
 

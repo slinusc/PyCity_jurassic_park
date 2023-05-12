@@ -52,8 +52,6 @@ class BrachiosaurusLife(Task):
                 neighbor.set_state(previous_state)  # restore previous state
                 self.update(cell)
                 self.update(neighbor)
-            self.update(cell)
-            self.update(Dirt)
 
 
 if __name__ == '__main__':  # test only
