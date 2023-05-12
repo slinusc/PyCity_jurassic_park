@@ -46,6 +46,12 @@ class BrachiosaurusLife(Task):
                 if random.random() < 0.5:
                     neighbor = neighbor.mutate_to(Dirt)
                     self.update(neighbor)
+            elif isinstance(neighbor, Dirt):
+                previous_state = neighbor.get_state()  # save previous state
+                cell.swap(neighbor)
+                neighbor.set_state(previous_state)  # restore previous state
+                self.update(cell)
+                self.update(neighbor)
             elif not isinstance(neighbor, (Water, Mountain, Swamp)):
                 previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)

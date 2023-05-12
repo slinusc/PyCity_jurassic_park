@@ -37,7 +37,7 @@ class ParasaurolophusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
                 if random.random() < 0.5:  # 50% chance to reproduce
-                    for _ in range(5):
+                    for _ in range(7):
                         empty_cell = self.get_random_cell(Dirt)
                         new_para = empty_cell.mutate_to(Parasaurolophus)
                         self.update(new_para)
