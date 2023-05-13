@@ -36,15 +36,20 @@ class ParasaurolophusLife(Task):
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
-                if random.random() < 0.5:  # 50% chance to reproduce
-                    for _ in range(7):
-                        empty_cell = self.get_random_cell(Dirt)
-                        new_para = empty_cell.mutate_to(Parasaurolophus)
-                        self.update(new_para)
-            elif isinstance(neighbor, Trex):  # meet trex
+                for _ in range(3):
+                    empty_cell = self.get_random_cell(Dirt)
+                    new_para = empty_cell.mutate_to(Parasaurolophus)
+                    self.update(new_para)
+            elif isinstance(neighbor, (Trex, Brachiosaurus)):  # meet trex
                 cell = cell.mutate_to(Dirt)  # back to dirt
                 self.update(cell)
-            elif not isinstance(neighbor, (Water, Mountain, Swamp)):
+            elif isinstance(neighbor, (Dirt, Swamp)):
+                previous_state = neighbor.get_state()  # save previous state
+                cell.swap(neighbor)
+                neighbor.set_state(previous_state)  # restore previous state
+                self.update(cell)
+                self.update(neighbor)
+            elif not isinstance(neighbor, (Water, Mountain)):
                 previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
                 neighbor.set_state(previous_state)  # restore previous state
