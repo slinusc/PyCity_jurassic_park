@@ -120,7 +120,7 @@ class Cell():
 class Forest(Cell):
     ''' and kind of alive Forest
         index: age of Forest '''
-    color = "#00FF00"  # RGB (red green blue) > G = max (FF) > green
+    color = "#228B22"  # RGB (red green blue) > G = max (FF) > green 228B22
     burnable = True
 
 
@@ -148,7 +148,7 @@ class Dirt(Cell):
     ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
     # no need to set burnable, False is inherited
-    color = "#8B4513"  # RGB (red green blue) > Swamp color
+    color = "#A98B64"  # RGB (red green blue) > Swamp color
 
 class Plants(Cell):
     ''' any kind of Swamp ...
@@ -164,17 +164,17 @@ class Plants(Cell):
 class Trex(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#303030"  # RGB (red green blue) > cyan color
+    color = "#A98B64"  # RGB (red green blue) > cyan color
 
 class Parasaurolophus(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#8B4513"  # RGB (red green blue) > cyan color
+    color = "#A98B64"  # RGB (red green blue) > cyan color
 
 class Brachiosaurus(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#8B4513"  # RGB (red green blue) > cyan color
+    color = "#A98B64"  # RGB (red green blue) > cyan color
 
 # test
 if __name__ == '__main__':

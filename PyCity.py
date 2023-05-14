@@ -40,7 +40,7 @@ LABEL_COLOR = 'blue'  # used for label title
 LABEL_ENABLE = 'black'  # used on enabled tasks
 LABEL_DISABLE = 'grey'  # used on disabled tasks
 
-''' leave this related setting '''
+''' leave this related setting '''  # do not change
 SIZE = CELLS * CELL_SIZE
 WIDTH = SIZE + INFO  # with is grid  size and info size
 HEIGHT = SIZE  # height is grid size
