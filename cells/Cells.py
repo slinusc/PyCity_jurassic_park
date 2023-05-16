@@ -138,6 +138,14 @@ class Mountain(Cell):
     color = "#888888"  # RGB (red green blue) > stone color
 
 
+class Fence(Cell):
+    ''' Metal fence ...'''
+    color = "#FEE3D4"
+
+class Path(Cell):
+    ''' Metal fence ...'''
+    color = "#FEE3D4"
+
 class Swamp(Cell):
     ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
