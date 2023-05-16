@@ -21,7 +21,7 @@ sys.path.append('../')  # search moduls in parent folder too
 from cells import Cells as c
 
 #START_SCENE = 'IlesOfForests.csv'  # load this scene on startup
-START_SCENE = 'dinoParc.csv'  # load this scene on startup
+START_SCENE = 'jurassicParc.csv'  # load this scene on startup
 CSV_FILE_PATH = "../csv_scene_files"  # path of csv files
 CELLS = 30
 ALL_CELLS = c.Cell.__subclasses__()
