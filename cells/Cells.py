@@ -142,9 +142,26 @@ class Fence(Cell):
     ''' Metal fence ...'''
     color = "#FEE3D4"
 
+
+class BrokenFence(Cell):
+    ''' Metal broken fence ...'''
+    color = "#FEE3D4"
+
+
 class Path(Cell):
     ''' Metal fence ...'''
     color = "#FEE3D4"
+
+
+class Visitor(Cell):
+    ''' Visitor ...'''
+    color = "#FEE3D4"
+
+
+class Ranger(Cell):
+    ''' Ranger ...'''
+    color = "#FEE3D4"
+
 
 class Swamp(Cell):
     ''' any kind of Swamp ...

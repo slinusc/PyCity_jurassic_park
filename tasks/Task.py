@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 ''' Task base class
     method: to_task
             - is called dynamically
@@ -68,6 +71,28 @@ class Task(metaclass=ABCMeta):
             v = random.choice(range(max(0, col - 1),
                                     min(len(self.cells[0]), col + 2)))
         return self.cells[h][v]
+    def get_neighbor_cell_direction(self, cell, directions):
+        ''' get neighbor cell based on specified direction '''
+        row, col = cell.get_row_col()  # get coordinates
+        # define movements
+        movements = {
+            'up': (-1, 0),
+            'left': (0, -1),
+            'right': (0, 1),
+            'down': (1, 0)
+        }
+
+        possible_neighbors = []
+        for direction in directions:
+            if direction in movements:
+                h = (row + movements[direction][0]) % len(self.cells)
+                v = (col + movements[direction][1]) % len(self.cells[0])
+                possible_neighbors.append(self.cells[h][v])
+
+        if possible_neighbors:
+            return random.choice(possible_neighbors)
+        else:
+            return None  # no valid neighbors
 
     def swap(self, cell, other):
         self.__dict__, other.__dict__ = other.__dict__, self.__dict__

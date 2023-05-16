@@ -24,7 +24,7 @@ class PlantLifeReturning(Task):
             if prob < 0.4:
                 forest = cell.mutate_to(Forest)
                 self.update(forest)
-            elif 0.4 <= prob < 0.80:
+            else:
                 plants = cell.mutate_to(Plants)
                 self.update(plants)
 

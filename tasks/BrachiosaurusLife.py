@@ -50,7 +50,7 @@ class BrachiosaurusLife(Task):
                 neighbor.set_state(previous_state)  # restore previous state
                 self.update(cell)
                 self.update(neighbor)
-            elif not isinstance(neighbor, (Water, Mountain)):
+            elif not isinstance(neighbor, (Water, Mountain, Fence)):
                 previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
                 neighbor.set_state(previous_state)  # restore previous state

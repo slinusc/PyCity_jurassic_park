@@ -10,46 +10,54 @@
     Build your way to extraordinary.                            @ea.com '''
 
 __description__ = 'main PyCity application'
-__version__ = '1.0.5'
-__date__ = '08.05.2021'
+__version__ = '1.0.8'
+__date__ = '11.05.2023'
 __author__ = 'Stephan Metzler'
 __email__ = 'metl@zhaw.ch'
 __status__ = 'build your way to extraordinary'
 
 import os
 import importlib
-import copy
 import random
-import numpy as np
+import time
+import copy
+import pickle
 import tkinter as tk
 from tkinter.messagebox import showinfo, showwarning
 import cells.Cells as c
 import scenes.Scenes as s
 from tasks import *
-from utils.Decorator import log, exception
+from tasks import Task
+from utils.Decorator import log, exception, Elapse
+from utils.StatusBar import StatusBar
 
 
 ''' change this settings on demand '''
 CELLS = 30  # grid > cells x cells >> make sure you use cpmpatable csv files
 CELL_SIZE = 20  # display size of cell rectangle
 INFO = 250  # offest for Info Cnavas
+STATUS = 20  # height of status bar
 TIMER = 50  # time in msec to updates tasks
-START_TASKS = 'ParasaurolophusLife', 'BrachiosaurusLife', 'PlantLifeReturning', 'TrexLife'
+START_TASKS = 'ParasaurolophusLife', 'BrachiosaurusLife', 'PlantLifeReturning', 'VisitorWalksAround', 'TrexLife', 'FenceLife', 'RangerProtects'
 FONT = ("Consolas", int(CELL_SIZE / 2))  # fonnt for text in window
 LABEL_COLOR = 'blue'  # used for label title
+LABEL_CELL_INFO = 'red'  # mouse hover cell info
 LABEL_ENABLE = 'black'  # used on enabled tasks
 LABEL_DISABLE = 'grey'  # used on disabled tasks
 
-''' leave this related setting '''  # do not change
+''' leave this related setting '''
 SIZE = CELLS * CELL_SIZE
 WIDTH = SIZE + INFO  # with is grid  size and info size
-HEIGHT = SIZE  # height is grid size
+HEIGHT = SIZE + STATUS  # height is grid size
 ALL_CELLS = c.Cell.__subclasses__()  # all cell objects
-START_SCENE = s.START_SCENE[:-4]  # IlesOfForests > this scene is loaded on start
-ICON = 'icon/pyCity.ico'  # folder
+START_SCENE = s.START_SCENE[:-4]  # IlesOfTrees > this scene is loaded on start
+if os.name == "posix":
+    ICON = '@icon/pyCity.xbm'  # folder icon
+else:
+    ICON = 'icon/pyCity.ico'  # folder icon
 HOWTO = 'info/howto.txt'  # folder
 KEY = 'info/keys.txt'  # folder
-IMAGE = 'pics'  # folderf
+IMAGE = 'pics'  # folder
 IMAGE_EXT = '.png'  # image extension
 LIMIT = 20  # limits name for display
 
@@ -57,7 +65,7 @@ LIMIT = 20  # limits name for display
 class PyCity(tk.Tk):
     ''' trivial SimCity approach '''
     displayed_cells = [[()  # empty 2dim list of tuple ...
-                       for col in range(CELLS)]  # as tupel (rectangle, text)
+                        for col in range(CELLS)]  # as tupel (rectangle, text)
                        for row in range(CELLS)]  # of displayed cells
     scene = s.Scenes()  # get a Scenes instance
     scenes = 'Scene', scene.get_scenes()  # type is tupel
@@ -66,7 +74,7 @@ class PyCity(tk.Tk):
     task_labels = []  # list of task labels
     events = 'Event', ['step', 'start', 'stop']  # type is tupel
     controls = 'Control', ['all tasks', 'blank', 'info', 'no tasks', 'random cells',
-        'picture (toggle)', 'scene dump', 'toggle task' ]  # type is tupel
+                           'picture (toggle)', 'scene dump', 'toggle task']  # type is tupel
     cells = scene.get_cells()  # reference to cells
     cell_labels = []  # list of cell labels
     task_on_cell = None  # do all enabled tasks on cell
@@ -75,6 +83,7 @@ class PyCity(tk.Tk):
     cell = None  # selected cell
     clone = None  # cell to clone
     loop = False  # loop cycle
+    start = time.time()
 
     @exception  # writes exception to err file
     def __init__(self, info=False):  # info popups text message
@@ -92,6 +101,7 @@ class PyCity(tk.Tk):
         self.grid.bind("<Button-2>", self.right_mouse_click)  # on Mac
         self.grid.bind("<Button-3>", self.right_mouse_click)  # on Windows
         self.grid.bind("<B1-Motion>", self.mouse_move)  # mouse move
+        self.grid.bind("<Motion>", self.cell_info)  # print cell on mouse hover
         self.grid.bind("<ButtonRelease-1>", self.mouse_release)  # mouse up
         self.bind("<Key>", self.on_key)  # bind keys > key event calls on_key()
         # load existing gif image files in dict
@@ -100,7 +110,8 @@ class PyCity(tk.Tk):
         self.init_menus()  # init menus
         self.init_cells()  # init cells
         self.init_labels()  # init labels
-        self.main.pack()  # pack Tk application
+        self.status = StatusBar(self.main, 'yellow', 'black')  # status bar
+        self.main.pack(expand=True, fill=tk.BOTH)  # pack Tk application
         if info:  # pop-up info text (this is the info from custructor)
             with open(HOWTO, 'r') as f:
                 showinfo('Welcome to PyCity', f.read())  # open showinfo box
@@ -181,6 +192,10 @@ class PyCity(tk.Tk):
         # cells
         tk.Label(self.info, text='Cells', fg=fg, font='bold'). \
             grid(column=0, row=row)  # cell titel label
+        label = tk.Label(self.info, text='',
+                         fg=LABEL_CELL_INFO, justify='right')  # elapsed time label
+        label.grid(column=2, columnspan=3, row=row)  # add to grid
+        self.cell_labels.append([label, 'info'])  # put to lable list
         row += 1
         for cell_object in ALL_CELLS:  # for all cells
             cell = cell_object(-1, -1)  # instance cell
@@ -188,7 +203,7 @@ class PyCity(tk.Tk):
             bg_color = cell.color  # get color of cell
             fg_color = 'black' if cell.is_dark() else 'white'
             img = self.images[name if (name in self.images.keys())
-                              else 'Blank']
+            else 'Blank']
             tk.Label(self.info, image=img). \
                 grid(column=0, row=row)  # cell label
             tk.Label(self.info, text=name, width=10, fg=fg_color,  # labels for
@@ -212,8 +227,8 @@ class PyCity(tk.Tk):
                 if event[:LIMIT] == label[0].cget("text")[:LIMIT]:  # task name
                     label[2] = not label[2]  # toggle True|False
                     label[0].config(fg=LABEL_ENABLE
-                                    if label[2]
-                                    else LABEL_DISABLE)  # toggle color
+                    if label[2]
+                    else LABEL_DISABLE)  # toggle color
         elif menu == "Event":  # call event [step, start, stop]
             self.loop = event == 'start'
             self.do_tasks()
@@ -236,12 +251,14 @@ class PyCity(tk.Tk):
 
     def left_mouse_click(self, event):
         ''' cell left mouse click event '''
+
         def debug_print():
             task = '/'.join([
                 label[0].cget("text")
                 for label in self.task_labels if label[2]])
             if task:
                 print(f'do {task} on {self.task_on_cell!r}', flush=True)
+
         cell = self.get_cell_clicked(event)  # get the cell
         self.task_on_cell = cell  # update selected cell
         self.loop = False  # disable loop mode
@@ -283,12 +300,14 @@ class PyCity(tk.Tk):
     @exception  # writes exception to err file
     def do_tasks(self):
         ''' call enabled tasks '''
+
         @log  # writes to to log file if cell instance changes
         def call_task(task, cell):
             ''' decorated task '''
             task.do_task(cell)  # do task
-        cells = np.copy(self.cells)  # copy
-        old_index = np.array([[cell.index for cell in row] for row in self.cells])
+
+        # binary serialisation of cell object as list
+        cells_before_task = [[pickle.dumps(cell) for cell in row] for row in self.cells]
         for label in self.task_labels:  # for all task labels
             task = label[0].cget("text")  # get task name
             if label[2]:  # task enabeld
@@ -297,19 +316,21 @@ class PyCity(tk.Tk):
                 task_instance = task_class(self.cells)  # instance task
                 call_task(task_instance, self.task_on_cell)  # do the task
                 label[1].config(text=task_instance.counter)  # update count
-        changes = np.not_equal(cells, self.cells)  # compair np arrays
-        for index, changed in np.ndenumerate(changes):  # get the changed cells
-            if changed:
-                row, col = index
+        # binary serialisation of cell object as list
+        cells_after_task = [[pickle.dumps(cell) for cell in row] for row in self.cells]
+        for row_of_cells in self.cells:
+            for cell in row_of_cells:
+                row, col = cell.get_row_col()
+                if cells_before_task[row][col] == cells_after_task[row][col]:
+                    continue
                 self.update_cell(self.cells[row][col])  # update cell
-        new_index = np.array([[cell.index for cell in row] for row in self.cells])
-        changes = np.not_equal(old_index, new_index)  # compair np arrays
-        for index, changed in np.ndenumerate(changes):  # get the changed cells
-            if changed:
-                row, col = index
-                self.update_cell(self.cells[row][col])
-        self.update_labels()
+                self.update_labels()
+
         self.task_on_cell = None  # reset
+        elapsed_time = int(time.time() - self.start)
+        m, s = divmod(elapsed_time, 60)  # min, sec
+        h, m = divmod(m, 60)  # hour, min
+        self.cell_labels[0][0].config(text=f'{h:d}:{m:02d}:{s:02d}')  # lable it
         if self.loop:  # timed loop
             self.after(TIMER, self.do_tasks)  # call on scheduled timer
 
@@ -345,7 +366,6 @@ class PyCity(tk.Tk):
         elif key.lower() == 'p':  # toggle cell image
             self.show_img = not self.show_img
             self.update_cells()  # update cells
-            self.update_labels()  # update labels
         elif key.lower() == 'r':  # generate scene with random cells
             self.cells = [[random.choice(ALL_CELLS)(row, col)
                            for col in range(CELLS)]
@@ -396,6 +416,13 @@ class PyCity(tk.Tk):
             text = str(index)
         return text
 
+    def cell_info(self, event):
+        cell = self.get_cell_clicked(event)  # get the cell
+        if cell is None:
+            self.status.set('hover cell for info')
+        else:
+            self.status.set(f'{cell}')
+
     def update_cells(self):  # update all cells
         for row in self.cells:  # for all cells
             for cell in row:
@@ -415,7 +442,7 @@ class PyCity(tk.Tk):
             self.grid.itemconfigure(img, image=self.images['Blank'])
 
     def update_labels(self):
-        for cell in self.cell_labels:  # update count of cell labels
+        for cell in self.cell_labels[1:]:  # update count of cell labels
             count = self.count_cells(cell[1])  # sum of same cell
             cell[0].config(text=count)  # update cell label sum
 
@@ -443,5 +470,5 @@ if __name__ == '__main__':  # start PyCity Application
     pyCity.bind("<Escape>", lambda x: pyCity.destroy())  # esc key ends PyCity
     pyCity.mainloop()  # start main loop
 
-    #import profile
-    #profile.run('pyCity.mainloop()')  # with profiler
+    # import profile
+    # profile.run('pyCity.mainloop()')  # with profiler

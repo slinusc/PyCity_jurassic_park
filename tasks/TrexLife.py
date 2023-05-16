@@ -18,16 +18,16 @@ class TrexLife(Task):
                 neighbor = neighbor.mutate_to(Dirt)
                 self.update(cell)
                 self.update(neighbor)
-            elif isinstance(neighbor, Trex):
-                for _ in range(2):
-                    empty_cell = self.get_random_cell(Dirt)
-                    new_trex = empty_cell.mutate_to(Trex)
-                    self.update(new_trex)
+ #           elif isinstance(neighbor, Trex):
+  #              for _ in range(2):
+   #                 empty_cell = self.get_random_cell(Dirt)
+  #                  new_trex = empty_cell.mutate_to(Trex)
+   #                 self.update(new_trex)
             elif isinstance(neighbor, Swamp):
                 cell = cell.mutate_to(Dirt)
                 self.update(cell)
             else:
-                if not isinstance(neighbor, (Water, Mountain)):
+                if not isinstance(neighbor, (Water, Mountain, Fence)):
                     previous_state = neighbor.get_state()  # save previous state
                     cell.swap(neighbor)
                     neighbor.set_state(previous_state)  # restore previous state
