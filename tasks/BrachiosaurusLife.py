@@ -13,6 +13,7 @@ __author__ = 'Obermühlner'
 
 import sys
 import copy
+import random
 sys.path.append('../')
 
 from cells.Cells import *
@@ -35,9 +36,11 @@ class BrachiosaurusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus
                 for _ in range(2):
-                    empty_cell = self.get_random_cell(Dirt)
-                    new_brachio = empty_cell.mutate_to(Brachiosaurus)
-                    self.update(new_brachio)
+                    empty_cell = self.get_random_cell(Plants)
+                    prob = random.random()
+                    if (prob < 0.1):
+                        new_brachio = empty_cell.mutate_to(Brachiosaurus)
+                        self.update(new_brachio)
             elif isinstance(neighbor, Trex):  # meet trex
                 cell = cell.mutate_to(Dirt)# back to dirt
                 self.update(cell)

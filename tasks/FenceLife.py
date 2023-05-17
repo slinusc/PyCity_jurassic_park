@@ -18,10 +18,11 @@ class FenceLife(Task):
         if not cell:
             cell = self.get_random_cell()  # use any cell
 
-        prob = random.random()
-        if isinstance(cell, Fence): #and prob < 0.1:  # 10% chance to break
-            broken_fence = cell.mutate_to(BrokenFence)
-            self.update(broken_fence)
+        if isinstance(cell, Fence):
+            prob = random.random()
+            if (prob < 0.1):  # 10% chance to break
+                broken_fence = cell.mutate_to(BrokenFence)
+                self.update(broken_fence)
         elif isinstance(cell, BrokenFence):  # 10% chance to repair
             fence = cell.mutate_to(Fence)
             self.update(fence)

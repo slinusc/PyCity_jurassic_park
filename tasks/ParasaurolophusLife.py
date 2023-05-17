@@ -36,8 +36,9 @@ class ParasaurolophusLife(Task):
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
-                for _ in range(3):
-                    empty_cell = self.get_random_cell(Dirt)
+                prob = random.random()
+                if (prob < 0.1):
+                    empty_cell = self.get_random_cell(Plants)
                     new_para = empty_cell.mutate_to(Parasaurolophus)
                     self.update(new_para)
             elif isinstance(neighbor, (Trex, Brachiosaurus)):  # meet trex
