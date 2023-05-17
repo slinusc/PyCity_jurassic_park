@@ -15,7 +15,7 @@ class TrexLife(Task):
             neighbor = self.get_neighbor_cell(cell)
             if isinstance(neighbor, (Parasaurolophus, Brachiosaurus)):
                 cell.swap(neighbor)
-                neighbor = neighbor.mutate_to(Dirt)
+                neighbor = neighbor.mutate_to(Grass)
                 self.update(cell)
                 self.update(neighbor)
  #           elif isinstance(neighbor, Trex):
@@ -24,7 +24,7 @@ class TrexLife(Task):
   #                  new_trex = empty_cell.mutate_to(Trex)
    #                 self.update(new_trex)
             elif isinstance(neighbor, Swamp):
-                cell = cell.mutate_to(Dirt)
+                cell = cell.mutate_to(Grass)
                 self.update(cell)
             else:
                 if not isinstance(neighbor, (Water, Mountain, Fence)):

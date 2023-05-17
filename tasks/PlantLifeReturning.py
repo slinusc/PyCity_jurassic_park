@@ -19,7 +19,7 @@ class PlantLifeReturning(Task):
         if not cell:
             cell = self.get_random_cell()  # use any cell
 
-        if isinstance(cell, Dirt):
+        if isinstance(cell, Grass):
             prob = random.random()
             if prob < 0.4:
                 forest = cell.mutate_to(Forest)

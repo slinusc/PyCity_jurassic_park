@@ -32,7 +32,7 @@ class ParasaurolophusLife(Task):
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
             if isinstance(neighbor, Plants):  # eat plants
                 cell.swap(neighbor)
-                neighbor = neighbor.mutate_to(Dirt)  # back to dirt
+                neighbor = neighbor.mutate_to(Grass)  # back to Grass
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
@@ -42,9 +42,9 @@ class ParasaurolophusLife(Task):
                     new_para = empty_cell.mutate_to(Parasaurolophus)
                     self.update(new_para)
             elif isinstance(neighbor, (Trex, Brachiosaurus)):  # meet trex
-                cell = cell.mutate_to(Dirt)  # back to dirt
+                cell = cell.mutate_to(Grass)  # back to Grass
                 self.update(cell)
-            elif isinstance(neighbor, (Dirt, Swamp)):
+            elif isinstance(neighbor, (Grass, Swamp)):
                 previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
                 neighbor.set_state(previous_state)  # restore previous state
@@ -93,8 +93,8 @@ if __name__ == '__main__':  # test only
     para + other_para  # add index of other_para to para
     print(f'{para!r} is bigger than {other_para!r}:', para > other_para)
     # test move
-    dirt = paraBehavior.get_random_cell(Dirt)  # get dirt
-    print(f'para and dirt: {para!r} - {dirt!r}')
-    para.swap(dirt)  # swap
-    print(f'swapped       : {para!r} - {dirt!r}')
+    grass = paraBehavior.get_random_cell(Grass)  # get Grass
+    print(f'para and Grass: {para!r} - {grass!r}')
+    para.swap(grass)  # swap
+    print(f'swapped       : {para!r} - {grass!r}')
 

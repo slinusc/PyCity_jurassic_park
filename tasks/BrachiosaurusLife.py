@@ -31,7 +31,7 @@ class BrachiosaurusLife(Task):
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
             if isinstance(neighbor, Forest):  # eat forest
                 cell.swap(neighbor)
-                neighbor = neighbor.mutate_to(Dirt)  # back to dirt
+                neighbor = neighbor.mutate_to(Grass)  # back to grass
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus
@@ -42,12 +42,12 @@ class BrachiosaurusLife(Task):
                         new_brachio = empty_cell.mutate_to(Brachiosaurus)
                         self.update(new_brachio)
             elif isinstance(neighbor, Trex):  # meet trex
-                cell = cell.mutate_to(Dirt)# back to dirt
+                cell = cell.mutate_to(Grass)# back to grass
                 self.update(cell)
             elif isinstance(neighbor, Parasaurolophus):
-                neighbor = neighbor.mutate_to(Dirt)
+                neighbor = neighbor.mutate_to(Grass)
                 self.update(neighbor)
-            elif isinstance(neighbor, (Dirt, Swamp)):
+            elif isinstance(neighbor, (Grass, Swamp)):
                 previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
                 neighbor.set_state(previous_state)  # restore previous state
@@ -95,7 +95,7 @@ if __name__ == '__main__':  # test only
     brachio + other_brachio  # add index of other_brachio to brachio
     print(f'{brachio!r} is bigger than {other_brachio!r}:', brachio > other_brachio)
     # test move
-    dirt = brachioBehavior.get_random_cell(Dirt)  # get dirt
-    print(f'brachio and dirt: {brachio!r} - {dirt!r}')
-    brachio.swap(dirt)  # swap
-    print(f'swapped       : {brachio!r} - {dirt!r}')
+    grass = brachioBehavior.get_random_cell(Grass)  # get grass
+    print(f'brachio and grass: {brachio!r} - {grass!r}')
+    brachio.swap(grass)  # swap
+    print(f'swapped       : {brachio!r} - {grass!r}')
