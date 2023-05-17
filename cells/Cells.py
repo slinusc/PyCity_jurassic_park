@@ -201,6 +201,10 @@ class Brachiosaurus(Cell):
         index: size '''
     color = "#228B22"  # RGB (red green blue) > cyan color
 
+class Trunk(Cell):
+    ''' after Tree gets eaten there will be a trunk which grows back to an Tree'''
+    color = "#228B22"
+
 # test
 if __name__ == '__main__':
     cells = 30  # use 30 x 30 cells
