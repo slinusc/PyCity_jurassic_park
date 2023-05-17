@@ -189,17 +189,17 @@ class Plants(Cell):
 class Trex(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#A98B64"  # RGB (red green blue) > cyan color
+    color = "#228B22"  # RGB (red green blue) > cyan color
 
 class Parasaurolophus(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#A98B64"  # RGB (red green blue) > cyan color
+    color = "#228B22"  # RGB (red green blue) > cyan color
 
 class Brachiosaurus(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#A98B64"  # RGB (red green blue) > cyan color
+    color = "#228B22"  # RGB (red green blue) > cyan color
 
 # test
 if __name__ == '__main__':
