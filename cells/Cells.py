@@ -199,14 +199,16 @@ class Swamp(Cell):
 class Grass(Cell):
     ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
-    # no need to set burnable, False is inherited
     color = "#228B22"  # RGB (red green blue) > Swamp color
 
 class Plants(Cell):
+    color = "#228B22"  # RGB (red green blue) > Swamp color
+
+
+class Dirt(Cell):
     ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
-    # no need to set burnable, False is inherited
-    color = "#228B22"  # RGB (red green blue) > Swamp color
+    color = "#964B00"  # RGB (red green blue) > Swamp color
 
 
 ''' to do:

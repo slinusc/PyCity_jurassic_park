@@ -22,7 +22,7 @@ class RangerProtects(Task):
         ''' do the task > manipulate cells '''
         if cell is None:  # if not cell clicked by mouse
             cell = self.get_random_cell(Ranger)  # want a Visitor only to ..
-        if isinstance(cell, Ranger):  # it's a Visitor
+        if isinstance(cell, Ranger):  # it's a Ranger
             neighbor = self.get_neighbor_cell_direction(cell, ["up", "left", "right","down"])  # get a random neighbor
             if isinstance(neighbor, (Brachiosaurus, Trex, Parasaurolophus)):  # meet a dinosaur
                 neighbor = neighbor.mutate_to(Path)  # transform into Path
@@ -33,3 +33,7 @@ class RangerProtects(Task):
                 neighbor.set_state(previous_state)  # restore previous state
                 self.update(cell)
                 self.update(neighbor)
+            elif isinstance(neighbor, BrokenFence):  # meet a BrokenFence
+                neighbor = neighbor.mutate_to(Fence)  # transform into Fence
+                self.update(neighbor)  # update the state of the neighbor
+

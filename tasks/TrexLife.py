@@ -18,11 +18,12 @@ class TrexLife(Task):
                 neighbor = neighbor.mutate_to(Grass)
                 self.update(cell)
                 self.update(neighbor)
- #           elif isinstance(neighbor, Trex):
-  #              for _ in range(2):
-   #                 empty_cell = self.get_random_cell(Dirt)
-  #                  new_trex = empty_cell.mutate_to(Trex)
-   #                 self.update(new_trex)
+            elif isinstance(neighbor, Trex):
+                prob = random.random()
+                if (prob < 0.1):
+                    empty_cell = self.get_random_cell(Plants)
+                    new_para = empty_cell.mutate_to(Parasaurolophus)
+                    self.update(new_para)
             elif isinstance(neighbor, Swamp):
                 cell = cell.mutate_to(Grass)
                 self.update(cell)
