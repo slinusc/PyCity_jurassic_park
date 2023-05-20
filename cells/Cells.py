@@ -44,11 +44,11 @@ class Cell():
         self.row = row
         self.col = col
 
- #   def get_previous_type(self):
- #       return self.previous_type
+    def get_previous_type(self):
+        return self.previous_type
 
- #   def set_previous_type(self, previous_type):
- #       self.previous_type = previous_type
+    def set_previous_type(self, previous_type):
+        self.previous_type = previous_type
 
 
     def get_state(self):
@@ -216,19 +216,7 @@ class Plants(Cell):
 class Trex(Cell):
     ''' walks on land and eats dinos
         index: size '''
-
-    def __init__(self, row=-1, col=-1):  # -1 for void
-        ''' constructor '''
-        super().__init__(row, col)  # call Cell's __init__ method
-        self.previous_type = Grass
-        self.color = "#228B22"  # RGB (red green blue) > cyan color
-
-    def get_previous_type(self):
-        return self.previous_type
-
-    def set_previous_type(self, previous_type):
-        self.previous_type = previous_type
-
+    color = "#228B22"  # RGB (red green blue) > cyan color
 class Parasaurolophus(Cell):
     ''' walks on land and eats dinos
         index: size '''
