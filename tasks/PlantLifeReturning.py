@@ -20,13 +20,11 @@ class PlantLifeReturning(Task):
             cell = self.get_random_cell()  # use any cell
 
         if isinstance(cell, Grass):
-            prob = random.random()
-            if prob < 0.4:
-                forest = cell.mutate_to(Forest)
-                self.update(forest)
-            else:
-                plants = cell.mutate_to(Plants)
-                self.update(plants)
+            plants = cell.mutate_to(Plants)
+            self.update(plants)
+        elif isinstance(cell, Trunk):
+            forest = cell.mutate_to(Forest)
+            self.update(forest)
 
 if __name__ == '__main__':  # test only
     task = [task.__name__ for task in Task.__subclasses__()]
