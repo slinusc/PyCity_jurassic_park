@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+__author__ = 'Linus Stuhlmann'
 ''' task: Visitor
     Visitor walks on Path only
     - when Visitor meet Brachiosaurus, Trex, or Parasaurolophus, they turn into Path

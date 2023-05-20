@@ -7,7 +7,7 @@
 '''
 
 __description__ = 'Visitor walks on Path and transforms dinosaurs into Path'
-__author__ = 'Andres Mock'
+__author__ = 'Obermühlner Adrian'
 
 import sys
 import copy

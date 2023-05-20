@@ -9,7 +9,7 @@
 '''
 
 __description__ = 'Brachiosaurus walk on land, eat Forest, and interact with other dinosaurs'
-__author__ = 'Obermühlner'
+__author__ = 'Andrés Mock'
 
 import sys
 import copy

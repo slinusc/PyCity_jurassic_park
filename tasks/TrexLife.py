@@ -1,3 +1,4 @@
+__author__ = 'Linus Stuhlmann'
 import sys
 import random
 import copy

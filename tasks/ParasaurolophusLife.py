@@ -9,7 +9,7 @@
 '''
 
 __description__ = 'parasaurolophus walk on land, eat plants, and interact with other dinosaurs'
-__author__ = 'Stephan Metzler'
+__author__ = 'Mike Gasser'
 
 import sys
 import random

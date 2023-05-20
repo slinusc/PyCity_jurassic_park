@@ -1,5 +1,5 @@
 __description__ = 'Fences turn into BrokenFences\nbe careful using palm oil'
-__author__ = 'Stephan Metzler'
+__author__ = 'Obermühlner Adrian'
 
 import sys
 import random
