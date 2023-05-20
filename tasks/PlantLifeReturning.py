@@ -1,5 +1,8 @@
-__description__ = 'cells turn to Forests and return the Jungle\nbe careful using palm oil'
+
+__description__ = 'Grass turns backinto Plants and Trunks turn into Trees'
 __author__ = 'Mike Gasser'
+
+
 
 import sys
 import random

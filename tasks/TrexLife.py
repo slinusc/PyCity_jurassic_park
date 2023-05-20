@@ -1,4 +1,11 @@
+''' task: Trex
+    Trex walks around, cannot pass Mountain, water or Fence
+    - when Trex meet Brachiosaurus, or Parasaurolophus they turn into Grass
+'''
+
+__description__ = 'Trex walks around and kills dinosaurs and makes babys'
 __author__ = 'Linus Stuhlmann'
+
 import sys
 import random
 import copy

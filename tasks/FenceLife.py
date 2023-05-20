@@ -1,4 +1,4 @@
-__description__ = 'Fences turn into BrokenFences\nbe careful using palm oil'
+__description__ = 'Fences turn into BrokenFences randomly, broken fences randomly get fixed'
 __author__ = 'Obermühlner Adrian'
 
 import sys

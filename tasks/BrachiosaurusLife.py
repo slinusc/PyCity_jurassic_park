@@ -4,8 +4,6 @@
 ''' task: Brachiosaurus
     Brachiosaurus walk on land, eat and get eaten
     - when Brachiosaurus meet, they may reproduce
-    - when Brachiosaurus meet trex, 50% chance to die
-    index:           size of dinosaur
 '''
 
 __description__ = 'Brachiosaurus walk on land, eat Forest, and interact with other dinosaurs'

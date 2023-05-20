@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-''' task: Visitor
-    Visitor walks on Path only
-    - when Visitor meet Brachiosaurus, Trex, or Parasaurolophus, they turn into Path
+''' task: TangerProteccts
+    Rangers  walks around on only Path
+    fixes BrokenFence, kills all dinosaurs when he meets
+    walks ranodmly around
 '''
 
-__description__ = 'Visitor walks on Path and transforms dinosaurs into Path'
+__description__ = 'Ranger walks on Path and transforms dinosaurs into Path, fixes Gates'
 __author__ = 'Obermühlner Adrian'
 
 import sys

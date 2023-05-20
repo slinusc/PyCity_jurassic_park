@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-__author__ = 'Linus Stuhlmann'
+
 ''' task: Visitor
     Visitor walks on Path only
-    - when Visitor meet Brachiosaurus, Trex, or Parasaurolophus, they turn into Path
+    - when Visitor meet Brachiosaurus, Trex, or Parasaurolophus, they turn into Path$
+    walks only left, right or up
 '''
 
-__description__ = 'Visitor walks on Path and transforms dinosaurs into Path'
-__author__ = 'Andres Mock'
+__description__ = 'Visitor walks on Path and  dies when he meets dinosaurs'
+__author__ = 'Linus Stuhlmann'
 
 import sys
 import copy
