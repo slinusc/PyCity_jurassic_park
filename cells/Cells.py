@@ -3,7 +3,7 @@
 
 ''' basic application contains a surface of 30 x 30 fields
     each field contains a typical city structure:
-    - land, water, house, business, sForestt, car, person, etc.
+    - land, water, house, business, street, car, person, etc.
 
     the fields are subclasses of Cell and contain
     - color: String (RGB as HEX) e.g. "#FF0000"  > red
@@ -20,6 +20,8 @@ __status__ = 'build your way to extraordinary'
 import random
 import csv
 from math import sqrt
+import json
+import inspect
 
 
 class Cell():
@@ -32,11 +34,31 @@ class Cell():
     index = 0
     color = "#000000"  # RGB (red green blue) > all 0 > black
     burnable = False
+    state = None
+  #  previous_type = None
+
+
 
     def __init__(self, row=-1, col=-1):  # -1 for void
         ''' constructor '''
         self.row = row
         self.col = col
+
+ #   def get_previous_type(self):
+ #       return self.previous_type
+
+ #   def set_previous_type(self, previous_type):
+ #       self.previous_type = previous_type
+
+
+    def get_state(self):
+        ''' return cell index '''
+        return self.state
+
+    def set_state(self, state):
+        ''' return cell index '''
+        self.state = state
+
 
     def get_color(self):
         ''' return cell color '''
@@ -62,7 +84,7 @@ class Cell():
     def swap(self, other):
         ''' swap to cells '''
         self.__dict__, other.__dict__ = other.__dict__, self.__dict__
-        
+
     def mutate_to(self, other):
         ''' returns mutated cell '''
         return other(self.row, self.col)
@@ -76,15 +98,6 @@ class Cell():
     def is_burnable(self):
         ''' return cell inflammability as True|False '''
         return self.burnable
-
-    def get_state(self):
-        ''' return cell state as a tuple (class, index) '''
-        return (self.__class__, self.index)
-
-    def set_state(self, state):
-        ''' set cell state from a tuple (class, index) '''
-        self.__class__, self.index = state
-
 
     def __eq__(self, other):
         ''' return comparison using == on cell objects '''
@@ -110,12 +123,26 @@ class Cell():
 
     def __str__(self):
         ''' built-int str() method returns string representation '''
-        return f'{self.__class__.__name__}{self.get_row_col()} index:{self.index}'
+        #return f'{self.__class__.__name__}{self.get_row_col()} index:{self.index}'
+        return f'{self.__class__.__name__}{self.get_row_col()} {self.attr()}'
+
 
     def __repr__(self):
         ''' built-int repr() method returns machine readable representation '''
         return '{:_<8}[{:02}/{:02}]_{:02}'.format(
             self.__class__.__name__, *self.get_row_col(), self.get_index())
+
+    def __hash__(self):
+        return hash(json.dumps(vars(self)))
+
+    def attr(self):
+        s = ''
+        for i in inspect.getmembers(self):
+            if not i[0].startswith('_'):
+                if not inspect.ismethod(i[1]):
+                    s += str(json.dumps(i))
+        return s
+
 
 class Forest(Cell):
     ''' and kind of alive Forest
@@ -189,7 +216,18 @@ class Plants(Cell):
 class Trex(Cell):
     ''' walks on land and eats dinos
         index: size '''
-    color = "#228B22"  # RGB (red green blue) > cyan color
+
+    def __init__(self, row=-1, col=-1):  # -1 for void
+        ''' constructor '''
+        super().__init__(row, col)  # call Cell's __init__ method
+        self.previous_type = Grass
+        self.color = "#228B22"  # RGB (red green blue) > cyan color
+
+    def get_previous_type(self):
+        return self.previous_type
+
+    def set_previous_type(self, previous_type):
+        self.previous_type = previous_type
 
 class Parasaurolophus(Cell):
     ''' walks on land and eats dinos

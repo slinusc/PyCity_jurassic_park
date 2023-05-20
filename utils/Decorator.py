@@ -118,7 +118,7 @@ if __name__ == '__main__':  # test only
                 ''' call the task and pass cell '''
                 return task.do_task(cell),
             task_instance = tasks.FireBlaze.FireBlaze(random_cells)  # create
-            cell = task_instance.get_random_cell(Tree)  # get a tree
+            cell = task_instance.get_random_cell(Grass)  # get a tree
             # change on index 3: Fire > Chark > Tree > Fire > ..
             row, col = cell.get_row_col()  # get cell row and col ..
             for i in range(15):  # .. cell will change

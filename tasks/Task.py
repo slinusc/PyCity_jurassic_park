@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 ''' Task base class
     method: to_task
             - is called dynamically
@@ -53,7 +50,7 @@ class Task(metaclass=ABCMeta):
             return random.choice(random.choice(self.cells))  # random cell
         else:  # check if the requested cell is in cells
             types = [type(c) for row in self.cells for c in row]  # all types
-            contains = np.isin(types, cell)  # contains cell 
+            contains = np.isin(types, cell)  # contains cell
             if not contains.any():  # cell not found
                 return None
         while True:  # get requested random cell
@@ -71,6 +68,7 @@ class Task(metaclass=ABCMeta):
             v = random.choice(range(max(0, col - 1),
                                     min(len(self.cells[0]), col + 2)))
         return self.cells[h][v]
+
     def get_neighbor_cell_direction(self, cell, directions):
         ''' get neighbor cell based on specified direction '''
         row, col = cell.get_row_col()  # get coordinates
@@ -163,9 +161,9 @@ if __name__ == '__main__':  # test only
     task.update(random_cell)  # update cells
     task.update(neighbor)  # update cells
     # test specific random cell
-    forest = task.get_random_cell(Forest)  # use class name
-    print('should be Forest only:', forest)
+    tree = task.get_random_cell(Plants)  # use class name
+    print('should be Tree only:', tree)
 
     # test specific random cell but cells are only burnable cells
-    hole = task.get_random_cell(Hole)  # use class name
+    hole = task.get_random_cell(Plants)  # use class name
     print('should be Hole only:', hole)  # None found > Hole does not burn

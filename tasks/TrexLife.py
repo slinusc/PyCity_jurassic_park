@@ -28,9 +28,13 @@ class TrexLife(Task):
                 self.update(cell)
             else:
                 if not isinstance(neighbor, (Water, Mountain, Fence)):
-                    previous_state = neighbor.get_state()  # save previous state
+                    cell.set_previous_type(type(neighbor))  # save neighbor's type
                     cell.swap(neighbor)
-                    neighbor.set_state(previous_state)  # restore previous state
+                    if cell.get_previous_type() is not None:
+                        neighbor.mutate_to(cell.get_previous_type())  # restore neighbor's previous type
+                    else:
+                        neighbor.mutate_to(Grass)  # replace with your default cell type
+
                     self.update(cell)
                     self.update(neighbor)
 

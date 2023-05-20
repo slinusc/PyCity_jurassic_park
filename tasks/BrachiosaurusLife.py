@@ -41,8 +41,8 @@ class BrachiosaurusLife(Task):
                     if (prob < 0.1):
                         new_brachio = empty_cell.mutate_to(Brachiosaurus)
                         self.update(new_brachio)
-            elif isinstance(neighbor, Trex):  # meet trex
-                cell = cell.mutate_to(Grass)# back to grass
+            elif isinstance(neighbor, Trex):
+                cell = cell.mutate_to(Grass)
                 self.update(cell)
             elif isinstance(neighbor, Parasaurolophus):
                 neighbor = neighbor.mutate_to(Grass)
