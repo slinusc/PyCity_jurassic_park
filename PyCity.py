@@ -27,10 +27,8 @@ from tkinter.messagebox import showinfo, showwarning
 import cells.Cells as c
 import scenes.Scenes as s
 from tasks import *
-from tasks import Task
-from utils.Decorator import log, exception, Elapse
+from utils.Decorator import log, exception
 from utils.StatusBar import StatusBar
-
 
 ''' change this settings on demand '''
 CELLS = 30  # grid > cells x cells >> make sure you use cpmpatable csv files

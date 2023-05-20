@@ -69,6 +69,20 @@ class Task(metaclass=ABCMeta):
                                     min(len(self.cells[0]), col + 2)))
         return self.cells[h][v]
 
+    def swap(self, cell, other):
+        self.__dict__, other.__dict__ = other.__dict__, self.__dict__
+        self.update(cell)
+        self.update(other)
+
+    def update(self, cell):
+        ''' update cell in cells - use when instance of cell changes '''
+        row, col = cell.get_row_col()
+        self.cells[row][col] = cell
+
+    def __str__(self):
+        ''' built-int str() method to return a string representation '''
+        return self.__class__.__name__  # return task name
+
     def get_neighbor_cell_direction(self, cell, directions):
         ''' get neighbor cell based on specified direction '''
         row, col = cell.get_row_col()  # get coordinates
@@ -91,20 +105,6 @@ class Task(metaclass=ABCMeta):
             return random.choice(possible_neighbors)
         else:
             return None  # no valid neighbors
-
-    def swap(self, cell, other):
-        self.__dict__, other.__dict__ = other.__dict__, self.__dict__
-        self.update(cell)
-        self.update(other)
-
-    def update(self, cell):
-        ''' update cell in cells - use when instance of cell changes '''
-        row, col = cell.get_row_col()
-        self.cells[row][col] = cell
-
-    def __str__(self):
-        ''' built-int str() method to return a string representation '''
-        return self.__class__.__name__  # return task name
 
 
 if __name__ == '__main__':  # test only
@@ -161,9 +161,9 @@ if __name__ == '__main__':  # test only
     task.update(random_cell)  # update cells
     task.update(neighbor)  # update cells
     # test specific random cell
-    tree = task.get_random_cell(Plants)  # use class name
+    tree = task.get_random_cell(Tree)  # use class name
     print('should be Tree only:', tree)
 
     # test specific random cell but cells are only burnable cells
-    hole = task.get_random_cell(Plants)  # use class name
+    hole = task.get_random_cell(Hole)  # use class name
     print('should be Hole only:', hole)  # None found > Hole does not burn

@@ -29,9 +29,9 @@ class TrexLife(Task):
                 self.update(cell)
             else:
                 if not isinstance(neighbor, (Water, Mountain, Fence)):
-                    previous_state = neighbor.get_state()  # save previous state
                     cell.swap(neighbor)
-                    neighbor.set_state(previous_state)  # restore previous state
+                    cell.set_index(neighbor.get_index())
+                    neighbor.set_index(0)
                     self.update(cell)
                     self.update(neighbor)
 

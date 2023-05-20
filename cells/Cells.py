@@ -38,27 +38,10 @@ class Cell():
   #  previous_type = None
 
 
-
     def __init__(self, row=-1, col=-1):  # -1 for void
         ''' constructor '''
         self.row = row
         self.col = col
-
-    def get_previous_type(self):
-        return self.previous_type
-
-    def set_previous_type(self, previous_type):
-        self.previous_type = previous_type
-
-
-    def get_state(self):
-        ''' return cell index '''
-        return self.state
-
-    def set_state(self, state):
-        ''' return cell index '''
-        self.state = state
-
 
     def get_color(self):
         ''' return cell color '''
@@ -142,8 +125,6 @@ class Cell():
                 if not inspect.ismethod(i[1]):
                     s += str(json.dumps(i))
         return s
-
-
 class Forest(Cell):
     ''' and kind of alive Forest
         index: age of Forest '''

@@ -28,9 +28,9 @@ class RangerProtects(Task):
                 neighbor = neighbor.mutate_to(Path)  # transform into Path
                 self.update(neighbor)
             elif isinstance(neighbor, Path):
-                previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
-                neighbor.set_state(previous_state)  # restore previous state
+                cell.set_index(neighbor.get_index())
+                neighbor.set_index(0)
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, BrokenFence):  # meet a BrokenFence

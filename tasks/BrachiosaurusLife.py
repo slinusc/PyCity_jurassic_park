@@ -44,19 +44,10 @@ class BrachiosaurusLife(Task):
             elif isinstance(neighbor, Trex):
                 cell = cell.mutate_to(Grass)
                 self.update(cell)
-            elif isinstance(neighbor, Parasaurolophus):
-                neighbor = neighbor.mutate_to(Grass)
-                self.update(neighbor)
-            elif isinstance(neighbor, (Grass, Swamp, Trunk)):
-                previous_state = neighbor.get_state()  # save previous state
-                cell.swap(neighbor)
-                neighbor.set_state(previous_state)  # restore previous state
-                self.update(cell)
-                self.update(neighbor)
             elif not isinstance(neighbor, (Water, Mountain, Fence)):
-                previous_state = neighbor.get_state()  # save previous state
                 cell.swap(neighbor)
-                neighbor.set_state(previous_state)  # restore previous state
+                cell.set_index(neighbor.get_index())
+                neighbor.set_index(0)
                 self.update(cell)
                 self.update(neighbor)
 
