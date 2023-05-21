@@ -59,6 +59,10 @@ class Task(metaclass=ABCMeta):
                 break  # requested cell found
         return random_cell
 
+    def get_cell_at_position(self, row, col):
+        ''' return cell at specified position '''
+        return self.cells[row][col]
+
     def get_neighbor_cell(self, cell):
         ''' get ramdom neighbor cell '''
         h, v = row, col = cell.get_row_col()  # get cordinates

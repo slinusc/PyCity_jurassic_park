@@ -22,8 +22,23 @@ class RangerProtects(Task):
             cell = self.get_random_cell(Ranger)  # want a Visitor only to ..
         if isinstance(cell, Ranger):  # it's a Ranger
             neighbor = self.get_neighbor_cell_direction(cell, ["up", "left", "right","down"])  # get a random neighbor
-            if isinstance(neighbor, (Brachiosaurus, Trex, Parasaurolophus)):  # meet a dinosaur
+            if isinstance(neighbor, Trex):  # meet a dinosaur
                 neighbor = neighbor.mutate_to(Path)  # transform into Path
+                new_trex_cell = self.get_cell_at_position(0, len(self.cells[0]) - 1)  # get cell at top right corner
+                new_trex = new_trex_cell.mutate_to(Trex)
+                self.update(new_trex)
+                self.update(neighbor)
+            elif isinstance(neighbor, Brachiosaurus):
+                neighbor = neighbor.mutate_to(Path)
+                new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
+                new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
+                self.update(new_brachio)
+                self.update(neighbor)
+            elif isinstance(neighbor, Parasaurolophus):
+                neighbor = neighbor.mutate_to(Path)
+                new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
+                new_para = new_para_cell.mutate_to(Parasaurolophus)
+                self.update(new_para)
                 self.update(neighbor)
             elif isinstance(neighbor, Path):
                 cell.swap(neighbor)

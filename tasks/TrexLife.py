@@ -21,10 +21,17 @@ class TrexLife(Task):
             cell = self.get_random_cell(Trex)
         if isinstance(cell, Trex):
             neighbor = self.get_neighbor_cell(cell)
-            if isinstance(neighbor, (Parasaurolophus, Brachiosaurus)):
-                cell.swap(neighbor)
-                neighbor = neighbor.mutate_to(Grass)
-                self.update(cell)
+            if isinstance(neighbor, Brachiosaurus):
+                neighbor = neighbor.mutate_to(Path)
+                new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
+                new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
+                self.update(new_brachio)
+                self.update(neighbor)
+            elif isinstance(neighbor, Parasaurolophus):
+                neighbor = neighbor.mutate_to(Path)
+                new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
+                new_para = new_para_cell.mutate_to(Parasaurolophus)
+                self.update(new_para)
                 self.update(neighbor)
             elif isinstance(neighbor, Trex):
                 prob = random.random()
@@ -42,7 +49,6 @@ class TrexLife(Task):
                     neighbor.set_index(0)
                     self.update(cell)
                     self.update(neighbor)
-
 
 
 if __name__ == '__main__':
