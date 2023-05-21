@@ -26,8 +26,8 @@ class VisitorWalksAround(Task):
         if isinstance(cell, Visitor):  # it's a Visitor
             neighbor = self.get_neighbor_cell_direction(cell, ["up", "left", "right"])  # get a random neighbor
             if isinstance(neighbor, (Brachiosaurus, Trex, Parasaurolophus)):  # meet a dinosaur
-                neighbor = neighbor.mutate_to(Path)  # transform into Path
-                self.update(neighbor)
+                cell = cell.mutate_to(Path)  # transform into Path
+                self.update(cell)
             elif isinstance(neighbor, Path):
                 cell.swap(neighbor)
                 cell.set_index(neighbor.get_index())
