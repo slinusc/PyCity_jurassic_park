@@ -21,7 +21,7 @@ class RangerProtects(Task):
         if cell is None:  # if not cell clicked by mouse
             cell = self.get_random_cell(Ranger)  # want a Visitor only to ..
         if isinstance(cell, Ranger):  # it's a Ranger
-            neighbor = self.get_neighbor_cell_direction(cell, ["up", "left", "right","down"])  # get a random neighbor
+            neighbor = self.get_neighbor_cell_direction(cell, ["up", "left", "right"])  # get a random neighbor
             if isinstance(neighbor, Trex):  # meet a dinosaur
                 neighbor = neighbor.mutate_to(Path)  # transform into Path
                 new_trex_cell = self.get_cell_at_position(0, len(self.cells[0]) - 1)  # get cell at top right corner
