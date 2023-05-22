@@ -138,14 +138,6 @@ class Water(Cell):
     # no need to set burnable, False is inherited
     color = "#0000FF"  # RGB (red green blue) > B = max (FF) > blue
 
-
-class Mountain(Cell):
-    ''' any kind of rock ...
-        index: depth, cleannes, flow, ...  '''
-    # no need to set burnable, False is inherited
-    color = "#888888"  # RGB (red green blue) > stone color
-
-
 class Fence(Cell):
     ''' Metal fence ...'''
     color = "#FEE3D4"
@@ -171,12 +163,6 @@ class Ranger(Cell):
     color = "#FEE3D4"
 
 
-class Swamp(Cell):
-    ''' any kind of Swamp ...
-        index: height -> dunes, ...  '''
-    # no need to set burnable, False is inherited
-    color = "#C2B280"  # RGB (red green blue) > Swamp color
-
 class Grass(Cell):
     ''' any kind of Swamp ...
         index: height -> dunes, ...  '''
@@ -186,10 +172,6 @@ class Plants(Cell):
     color = "#228B22"  # RGB (red green blue) > Swamp color
 
 
-class Dirt(Cell):
-    ''' any kind of Swamp ...
-        index: height -> dunes, ...  '''
-    color = "#964B00"  # RGB (red green blue) > Swamp color
 
 
 ''' to do:

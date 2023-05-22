@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-''' task: Brachiosaurus
-    Brachiosaurus walk on land, eat and get eaten
-    - when Brachiosaurus meet, they may reproduce
+'''task: BrachiosaurusLife
+    - Walks around, eats Forest
+    - Kills Visitors and gets killed by Rangers and Trex
+    - Reproduces with a likelyhood of 10% when meeting another Brachiosaurus
 '''
 
-__description__ = 'Brachiosaurus walk on land, eat Forest, and interact with other dinosaurs'
+__description__ = 'Brachiosaurus walk on land, eat Forest, and interact with other dinosaurs and Visitors/Rangers'
 __author__ = 'Andrés Mock'
 
 import sys
@@ -33,19 +33,28 @@ class BrachiosaurusLife(Task):
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus
-                for _ in range(2):
-                    empty_cell = self.get_random_cell(Plants)
-                    prob = random.random()
-                    if (prob < 0.1):
-                        new_brachio = empty_cell.mutate_to(Brachiosaurus)
-                        self.update(new_brachio)
+                prob = random.random()
+                if (prob < 0.1):
+                    new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
+                    new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
+                    self.update(new_brachio)
             elif isinstance(neighbor, Trex):
                 cell = cell.mutate_to(Grass)
+                new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
+                new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
+                self.update(new_brachio)
                 self.update(cell)
-            elif not isinstance(neighbor, (Water, Mountain, Fence)):
+            elif isinstance(neighbor, Visitor):
+                neighbor = neighbor.mutate_to(Path)
+                self.update(neighbor)
+            elif isinstance(neighbor, Ranger):
+                cell = cell.mutate_to(Path)
+                new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
+                new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
+                self.update(new_brachio)
+                self.update(cell)
+            elif not isinstance(neighbor, (Water, Fence)):
                 cell.swap(neighbor)
-                cell.set_index(neighbor.get_index())
-                neighbor.set_index(0)
                 self.update(cell)
                 self.update(neighbor)
 
@@ -53,7 +62,7 @@ class BrachiosaurusLife(Task):
 if __name__ == '__main__':  # test only
     print('''
     test Brachiosaurus
-    - brachiosaurus walk on land, eat plants, and interact with other dinosaurs
+    - brachiosaurus walk on land, eat forest, and interact with other dinosaurs
     ''')
     CELLS = 30  # scene with 900 cells
     STEPS = 10  # do the task 10 times

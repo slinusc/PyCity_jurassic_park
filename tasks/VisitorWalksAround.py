@@ -3,7 +3,7 @@
 
 ''' task: Visitor
     Visitor walks on Path only
-    - when Visitor meet Brachiosaurus, Trex, or Parasaurolophus, they turn into Path$
+    - when Visitor meet Brachiosaurus, Trex, or Parasaurolophus, they turn into Path
     walks only left, right or up
 '''
 
@@ -30,7 +30,5 @@ class VisitorWalksAround(Task):
                 self.update(cell)
             elif isinstance(neighbor, Path):
                 cell.swap(neighbor)
-                cell.set_index(neighbor.get_index())
-                neighbor.set_index(0)
                 self.update(cell)
                 self.update(neighbor)

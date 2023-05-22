@@ -1,9 +1,10 @@
 ''' task: Trex
-    Trex walks around, cannot pass Mountain, water or Fence
+    Trex walks around, cannot pass Water or Fence
     - when Trex meet Brachiosaurus, or Parasaurolophus they turn into Grass
+    - when Trex meets Ranger he will die and a new one will spawn
 '''
 
-__description__ = 'Trex walks around and kills dinosaurs and makes babys'
+__description__ = 'Trex walks around and kills dinosaurs'
 __author__ = 'Linus Stuhlmann'
 
 import sys
@@ -22,31 +23,29 @@ class TrexLife(Task):
         if isinstance(cell, Trex):
             neighbor = self.get_neighbor_cell(cell)
             if isinstance(neighbor, Brachiosaurus):
-                neighbor = neighbor.mutate_to(Path)
+                neighbor = neighbor.mutate_to(Grass)
                 new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
                 new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
                 self.update(new_brachio)
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):
-                neighbor = neighbor.mutate_to(Path)
+                neighbor = neighbor.mutate_to(Grass)
                 new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
                 new_para = new_para_cell.mutate_to(Parasaurolophus)
                 self.update(new_para)
                 self.update(neighbor)
-            elif isinstance(neighbor, Trex):
-                prob = random.random()
-                if (prob < 0.1):
-                    empty_cell = self.get_random_cell(Plants)
-                    new_para = empty_cell.mutate_to(Parasaurolophus)
-                    self.update(new_para)
-            elif isinstance(neighbor, Swamp):
-                cell = cell.mutate_to(Grass)
+            elif isinstance(neighbor, Visitor):
+                neighbor = neighbor.mutate_to(Path)
+                self.update(neighbor)
+            elif isinstance(neighbor, Ranger):
+                cell = cell.mutate_to(Path)
+                new_trex_cell = self.get_cell_at_position(0, len(self.cells[0]) - 1)  # get cell at top right corner
+                new_trex = new_trex_cell.mutate_to(Trex)
+                self.update(new_trex)
                 self.update(cell)
             else:
-                if not isinstance(neighbor, (Water, Mountain, Fence)):
+                if not isinstance(neighbor, (Water, Fence)):
                     cell.swap(neighbor)
-                    cell.set_index(neighbor.get_index())
-                    neighbor.set_index(0)
                     self.update(cell)
                     self.update(neighbor)
 
@@ -55,8 +54,7 @@ if __name__ == '__main__':
     print('''
     test TrexLife
     - Trex roams the world, eats Parasaurolophus and Brachiosaurus
-    - When meeting another Trex, there's a chance to generate 5 new Trex
-    - Trex will be stuck on Swamp, and die when its index reaches 50
+    - Trex gets killed by Rangers when meeting them
     ''')
     CELLS = 30
     RUNS = 1000

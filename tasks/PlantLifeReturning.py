@@ -1,5 +1,8 @@
-
-__description__ = 'Grass turns backinto Plants and Trunks turn into Trees'
+''' task: PlantLifeReturning
+    - Grass will turn into Plants with a likelyhood of 50%
+    - Trunk will turn back into Forest after time
+'''
+__description__ = 'Grass turns into Plants and Trunk into Forest'
 __author__ = 'Mike Gasser'
 
 
@@ -14,17 +17,19 @@ from tasks.Task import Task
 
 
 class PlantLifeReturning(Task):
-    ''' simulates forest grow '''
+    ''' simulates forest regrow and plants grow '''
 
     def do_task(self, cell=None):
-        ''' mutate any cell to Forest or plants
-            grow if Forest '''
+        ''' mutate grass cells to plants
+            and trunk cells to forest '''
         if not cell:
             cell = self.get_random_cell()  # use any cell
 
         if isinstance(cell, Grass):
-            plants = cell.mutate_to(Plants)
-            self.update(plants)
+            prob = random.random()
+            if (prob < 0.5):
+                plants = cell.mutate_to(Plants)
+                self.update(plants)
         elif isinstance(cell, Trunk):
             forest = cell.mutate_to(Forest)
             self.update(forest)

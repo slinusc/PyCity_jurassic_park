@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-''' task: parasaurolophus
-    parasaurolophus walk on land, eat and get eaten
-    - when parasaurolophus meet, they may reproduce
-    - when parasaurolophus meet trex, 50% chance to die
-    index:           size of dinosaur
+''' task: ParasaurolophusLife
+    - Walks around, eats plants, and cannot pass Water or Fence
+    - Kills Visitors and gets killed by Rangers and Trex
+    - Reproduces with a likelyhood of 10% when meeting another Parasaurolophus
 '''
 
-__description__ = 'parasaurolophus walk on land, eat plants, and interact with other dinosaurs'
+__description__ = 'Parasaurolophus walk on land, eat plants, and interact with other dinosaurs and Visitors/Rangers'
 __author__ = 'Mike Gasser'
 
 import sys
@@ -37,17 +36,27 @@ class ParasaurolophusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
                 prob = random.random()
-                if (prob < 0.3):
-                    empty_cell = self.get_random_cell(Plants)
-                    new_para = empty_cell.mutate_to(Parasaurolophus)
+                if (prob < 0.1):
+                    new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
+                    new_para = new_para_cell.mutate_to(Parasaurolophus)
                     self.update(new_para)
-            elif isinstance(neighbor, (Trex, Brachiosaurus)):  # meet trex
-                cell = cell.mutate_to(Grass)  # back to Grass
+            elif isinstance(neighbor, Trex):
+                cell = cell.mutate_to(Grass)
+                new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
+                new_para = new_para_cell.mutate_to(Parasaurolophus)
+                self.update(new_para)
                 self.update(cell)
-            elif not isinstance(neighbor, (Water, Mountain, Fence)):
+            elif isinstance(neighbor, Visitor):
+                neighbor = neighbor.mutate_to(Path)
+                self.update(neighbor)
+            elif isinstance(neighbor, Ranger):
+                cell = cell.mutate_to(Path)
+                new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
+                new_para = new_para_cell.mutate_to(Parasaurolophus)
+                self.update(new_para)
+                self.update(cell)
+            elif not isinstance(neighbor, (Water, Fence)):
                 cell.swap(neighbor)
-                cell.set_index(neighbor.get_index())
-                neighbor.set_index(0)
                 self.update(cell)
                 self.update(neighbor)
 

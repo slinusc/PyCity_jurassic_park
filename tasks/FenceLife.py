@@ -1,3 +1,10 @@
+
+''' task: FenceLife
+    - Will break randomly
+    - Broken Fence gets fixed randomly or by Rangers
+'''
+
+
 __description__ = 'Fences turn into BrokenFences randomly, broken fences randomly get fixed'
 __author__ = 'Obermühlner Adrian'
 
@@ -23,6 +30,6 @@ class FenceLife(Task):
             if (prob < 0.1):  # 10% chance to break
                 broken_fence = cell.mutate_to(BrokenFence)
                 self.update(broken_fence)
-        elif isinstance(cell, BrokenFence):  # 10% chance to repair
+        elif isinstance(cell, BrokenFence):
             fence = cell.mutate_to(Fence)
             self.update(fence)

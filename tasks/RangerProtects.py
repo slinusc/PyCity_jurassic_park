@@ -1,4 +1,4 @@
-''' task: TangerProteccts
+''' task: RangerProtects
     Rangers  walks around on only Path
     fixes BrokenFence, kills all dinosaurs when he meets
     walks ranodmly around
@@ -42,8 +42,6 @@ class RangerProtects(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Path):
                 cell.swap(neighbor)
-                cell.set_index(neighbor.get_index())
-                neighbor.set_index(0)
                 self.update(cell)
                 self.update(neighbor)
             elif isinstance(neighbor, BrokenFence):  # meet a BrokenFence
