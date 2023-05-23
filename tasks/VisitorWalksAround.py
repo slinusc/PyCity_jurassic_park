@@ -32,3 +32,33 @@ class VisitorWalksAround(Task):
                 cell.swap(neighbor)
                 self.update(cell)
                 self.update(neighbor)
+
+
+if __name__ == '__main__':  # test only
+    task = [task.__name__ for task in Task.__subclasses__()]
+    print('task: ', *task)
+    all_cells = [cell.__name__ for cell in Cell.__subclasses__()]
+    print('cells:', *all_cells)
+    CELLS = 30
+    RUNS = 1000
+
+    def count_Visitors_Dinos(cells):
+        visitors = 0
+        dinos = 0
+        for row in cells:
+            for cell in row:
+                if isinstance(cell, Visitor):
+                    visitors += 1
+                elif isinstance(cell, (Trex, Brachiosaurus, Parasaurolophus)):
+                    dinos += 1
+        return visitors, dinos  # return as tuple
+
+    # simulate VisitorWalksAround
+    cells = [[random.choice([Path(row, col), Visitor(row, col), Trex(row, col), Brachiosaurus(row, col), Parasaurolophus(row, col)]) for col in range(CELLS)] for row in range(CELLS)]
+    visitorWalksAround = VisitorWalksAround(cells)
+    print(f'simulate {RUNS} runs of {visitorWalksAround}')
+    print(f' - starting with {count_Visitors_Dinos(cells)[0]} Visitors and {count_Visitors_Dinos(cells)[1]} Dinosaurs')
+    for run in range(RUNS):
+        visitorWalksAround.do_task()
+    visitors, dinos = count_Visitors_Dinos(cells)  # return tuple
+    print(f' - ended with {visitors} Visitors and {dinos} Dinosaurs')

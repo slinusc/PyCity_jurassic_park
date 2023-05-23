@@ -33,3 +33,33 @@ class FenceLife(Task):
         elif isinstance(cell, BrokenFence):
             fence = cell.mutate_to(Fence)
             self.update(fence)
+
+
+if __name__ == '__main__':  # test only
+    task = [task.__name__ for task in Task.__subclasses__()]
+    print('task: ', *task)
+    all_cells = [cell.__name__ for cell in Cell.__subclasses__()]
+    print('cells:', *all_cells)
+    CELLS = 30
+    RUNS = 1000
+
+    def count_Fences(cells):
+        fences = 0
+        broken_fences = 0
+        for row in cells:
+            for cell in row:
+                if isinstance(cell, Fence):
+                    fences += 1
+                elif isinstance(cell, BrokenFence):
+                    broken_fences += 1
+        return fences, broken_fences  # return as tuple
+
+    # simulate FenceLife
+    cells = [[random.choice([Fence(row, col), BrokenFence(row, col)]) for col in range(CELLS)] for row in range(CELLS)]
+    fenceLife = FenceLife(cells)
+    print(f'simulate {RUNS} runs of {fenceLife}')
+    print(f' - starting with {count_Fences(cells)[0]} Fences and {count_Fences(cells)[1]} Broken Fences')
+    for run in range(RUNS):
+        fenceLife.do_task()
+    fences, broken_fences = count_Fences(cells)  # return tuple
+    print(f' - ended with {fences} Fences and {broken_fences} Broken Fences')

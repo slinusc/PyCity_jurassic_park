@@ -1,7 +1,7 @@
 ''' task: RangerProtects
     Rangers  walks around on only Path
     fixes BrokenFence, kills all dinosaurs when he meets
-    walks ranodmly around
+    walks randomly around but only up and to the side
 '''
 
 __description__ = 'Ranger walks on Path and transforms dinosaurs into Path, fixes Gates'
@@ -24,7 +24,7 @@ class RangerProtects(Task):
             neighbor = self.get_neighbor_cell_direction(cell, ["up", "left", "right"])  # get a random neighbor
             if isinstance(neighbor, Trex):  # meet a dinosaur
                 neighbor = neighbor.mutate_to(Path)  # transform into Path
-                new_trex_cell = self.get_cell_at_position(0, len(self.cells[0]) - 1)  # get cell at top right corner
+                new_trex_cell = self.get_cell_at_position(0, len(self.cells[0]) - 1) # get cell at top right corner
                 new_trex = new_trex_cell.mutate_to(Trex)
                 self.update(new_trex)
                 self.update(neighbor)
@@ -48,3 +48,32 @@ class RangerProtects(Task):
                 neighbor = neighbor.mutate_to(Fence)  # transform into Fence
                 self.update(neighbor)  # update the state of the neighbor
 
+
+if __name__ == '__main__':  # test only
+    task = [task.__name__ for task in Task.__subclasses__()]
+    print('task: ', *task)
+    all_cells = [cell.__name__ for cell in Cell.__subclasses__()]
+    print('cells:', *all_cells)
+    CELLS = 30
+    RUNS = 1000
+
+    def count_Dinos_Fences(cells):
+        dinos = 0
+        fences = 0
+        for row in cells:
+            for cell in row:
+                if isinstance(cell, (Trex, Brachiosaurus, Parasaurolophus)):
+                    dinos += 1
+                elif isinstance(cell, Fence):
+                    fences += 1
+        return dinos, fences  # return as tuple
+
+    # simulate RangerProtects
+    cells = [[random.choice([Path(row, col), Ranger(row, col), Trex(row, col), Brachiosaurus(row, col), Parasaurolophus(row, col), BrokenFence(row, col)]) for col in range(CELLS)] for row in range(CELLS)]
+    rangerProtects = RangerProtects(cells)
+    print(f'simulate {RUNS} runs of {rangerProtects}')
+    print(f' - starting with {count_Dinos_Fences(cells)[0]} Dinosaurs and {count_Dinos_Fences(cells)[1]} Fences')
+    for run in range(RUNS):
+        rangerProtects.do_task()
+    dinos, fences = count_Dinos_Fences(cells)  # return tuple
+    print(f' - ended with {dinos} Dinosaurs and {fences} Fences')
