@@ -27,12 +27,9 @@ class FenceLife(Task):
 
         if isinstance(cell, Fence):
             prob = random.random()
-            if (prob < 0.1):  # 10% chance to break
+            if (prob < 0.4):  # 10% chance to break
                 broken_fence = cell.mutate_to(BrokenFence)
                 self.update(broken_fence)
-        elif isinstance(cell, BrokenFence):
-            fence = cell.mutate_to(Fence)
-            self.update(fence)
 
 
 if __name__ == '__main__':  # test only

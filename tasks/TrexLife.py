@@ -24,7 +24,7 @@ class TrexLife(Task):
             neighbor = self.get_neighbor_cell(cell)
             other_neighbor = self.get_neighbor_cell(cell)
             next_cell = self.get_neighbor_cell(neighbor)
-            if isinstance(neighbor, BrokenFence) and isinstance(other_neighbor, (Grass, Plants, Forest)):
+            if isinstance(neighbor, BrokenFence) and isinstance(other_neighbor, (Grass, Plants, Forest, Trunk)):
                 if isinstance(next_cell, Path):
                     cell.swap(next_cell)
                     next_cell = next_cell.mutate_to(Grass)
