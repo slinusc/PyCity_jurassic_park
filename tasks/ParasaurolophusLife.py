@@ -29,7 +29,21 @@ class ParasaurolophusLife(Task):
             cell = self.get_random_cell(Parasaurolophus)  # want a parasaurolophus only to ..
         if isinstance(cell, Parasaurolophus):  # it's a Parasaurolophus
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
-            if isinstance(neighbor, Plants):  # eat plants
+            other_neighbor = self.get_neighbor_cell(cell)
+            next_cell = self.get_neighbor_cell(neighbor)
+            if isinstance(neighbor, BrokenFence) and isinstance(other_neighbor, (Grass, Plants, Forest)):
+                if isinstance(next_cell, Path):
+                    cell.swap(next_cell)
+                    next_cell = next_cell.mutate_to(Grass)
+                    self.update(cell)
+                    self.update(next_cell)
+            elif isinstance(neighbor, BrokenFence) and isinstance(other_neighbor, Path):
+                if isinstance(next_cell, (Plants, Forest, Grass)):
+                    cell.swap(next_cell)
+                    next_cell = next_cell.mutate_to(Path)
+                    self.update(cell)
+                    self.update(next_cell)
+            elif isinstance(neighbor, Plants):  # eat plants
                 cell.swap(neighbor)
                 neighbor = neighbor.mutate_to(Grass)  # back to Grass
                 self.update(cell)
@@ -55,7 +69,7 @@ class ParasaurolophusLife(Task):
                 new_para = new_para_cell.mutate_to(Parasaurolophus)
                 self.update(new_para)
                 self.update(cell)
-            elif not isinstance(neighbor, (Water, Fence)):
+            elif not isinstance(neighbor, (Water, Fence, BrokenFence)):
                 cell.swap(neighbor)
                 self.update(cell)
                 self.update(neighbor)

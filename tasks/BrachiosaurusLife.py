@@ -27,7 +27,21 @@ class BrachiosaurusLife(Task):
             cell = self.get_random_cell(Brachiosaurus)  # want a Brachiosaurus only to ..
         if isinstance(cell, Brachiosaurus):  # it's a Brachiosaurus
             neighbor = self.get_neighbor_cell(cell)  # get a random neighbor
-            if isinstance(neighbor, Forest):  # eat forest
+            other_neighbor = self.get_neighbor_cell(cell)
+            next_cell = self.get_neighbor_cell(neighbor)
+            if isinstance(neighbor, BrokenFence) and isinstance(other_neighbor, (Grass, Plants, Forest)):
+                if isinstance(next_cell, Path):
+                    cell.swap(next_cell)
+                    next_cell = next_cell.mutate_to(Grass)
+                    self.update(cell)
+                    self.update(next_cell)
+            elif isinstance(neighbor, BrokenFence) and isinstance(other_neighbor, Path):
+                if isinstance(next_cell, (Plants, Forest, Grass)):
+                    cell.swap(next_cell)
+                    next_cell = next_cell.mutate_to(Path)
+                    self.update(cell)
+                    self.update(next_cell)
+            elif isinstance(neighbor, Forest):  # eat forest
                 cell.swap(neighbor)
                 neighbor = neighbor.mutate_to(Trunk)  # back to grass
                 self.update(cell)
@@ -53,7 +67,7 @@ class BrachiosaurusLife(Task):
                 new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
                 self.update(new_brachio)
                 self.update(cell)
-            elif not isinstance(neighbor, (Water, Fence)):
+            elif not isinstance(neighbor, (Water, Fence, BrokenFence)):
                 cell.swap(neighbor)
                 self.update(cell)
                 self.update(neighbor)
