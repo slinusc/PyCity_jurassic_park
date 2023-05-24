@@ -3,7 +3,7 @@
 '''task: BrachiosaurusLife
     - Walks around, eats Forest
     - Kills Visitors and gets killed by Rangers and Trex
-    - Reproduces with a likelyhood of 10% when meeting another Brachiosaurus
+    - Reproduces with a likelyhood of 5% when meeting another Brachiosaurus
 '''
 
 __description__ = 'Brachiosaurus walk on land, eat Forest, and interact with other dinosaurs and Visitors/Rangers'
@@ -48,7 +48,7 @@ class BrachiosaurusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Brachiosaurus):  # meet another Brachiosaurus
                 prob = random.random()
-                if (prob < 0.1):
+                if (prob < 0.05):
                     new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
                     new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
                     self.update(new_brachio)
@@ -63,7 +63,7 @@ class BrachiosaurusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Ranger):
                 cell = cell.mutate_to(Path)
-                new_brachio_cell = self.get_cell_at_position(0, 0)  # get cell at top left corner
+                new_brachio_cell = self.get_random_cell(Plants)  # get cell at top left corner
                 new_brachio = new_brachio_cell.mutate_to(Brachiosaurus)
                 self.update(new_brachio)
                 self.update(cell)

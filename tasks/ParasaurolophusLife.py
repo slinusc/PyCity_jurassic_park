@@ -4,7 +4,7 @@
 ''' task: ParasaurolophusLife
     - Walks around, eats plants, and cannot pass Water or Fence
     - Kills Visitors and gets killed by Rangers and Trex
-    - Reproduces with a likelyhood of 10% when meeting another Parasaurolophus
+    - Reproduces with a likelyhood of 5% when meeting another Parasaurolophus
 '''
 
 __description__ = 'Parasaurolophus walk on land, eat plants, and interact with other dinosaurs and Visitors/Rangers'
@@ -50,7 +50,7 @@ class ParasaurolophusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Parasaurolophus):  # meet another parasaurolophus
                 prob = random.random()
-                if (prob < 0.1):
+                if (prob < 0.05):
                     new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
                     new_para = new_para_cell.mutate_to(Parasaurolophus)
                     self.update(new_para)
@@ -65,7 +65,7 @@ class ParasaurolophusLife(Task):
                 self.update(neighbor)
             elif isinstance(neighbor, Ranger):
                 cell = cell.mutate_to(Path)
-                new_para_cell = self.get_cell_at_position(len(self.cells) - 1, 0)  # get cell at bottom left corner
+                new_para_cell = self.get_random_cell(Forest)  # get cell at bottom left corner
                 new_para = new_para_cell.mutate_to(Parasaurolophus)
                 self.update(new_para)
                 self.update(cell)

@@ -1,7 +1,7 @@
 
 ''' task: FenceLife
     - Will break randomly
-    - Broken Fence gets fixed randomly or by Rangers
+    - Broken Fence gets fixed by Rangers
 '''
 
 
@@ -27,7 +27,7 @@ class FenceLife(Task):
 
         if isinstance(cell, Fence):
             prob = random.random()
-            if (prob < 0.4):  # 10% chance to break
+            if (prob < 0.1):  # 10% chance to break
                 broken_fence = cell.mutate_to(BrokenFence)
                 self.update(broken_fence)
 
